@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설문조사</title>
+  <style>
+    body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #f0f2f5; }
+    .card { background: white; padding: 28px; border-radius: 12px; width: 100%; max-width: 360px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); box-sizing: border-box; }
+    h2 { margin-top: 0; text-align: center; }
+    label { display: block; margin-top: 14px; font-weight: bold; font-size: 14px; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; margin-top: 20px; background: #0070f3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>설문조사</h2>
+    <form action="https://script.google.com/macros/s/AKfycbyPovRfGxI22hN_OEq8acUZdTnzxoeKdnMtXH7L16NJJb04T_bN20w86nTdt-mt36Bg/exec" method="POST">
+      <label>이름 / 닉네임</label>
+      <input type="text" name="name" required placeholder="이름을 입력하세요">
+      
+      <label>남기실 내용</label>
+      <textarea name="feedback" rows="4" required placeholder="내용을 작성해주세요"></textarea>
+      
+      <button type="submit">제출하기</button>
+    </form>
+  </div>
+</body>
+</html>
