@@ -60,7 +60,7 @@
       display: flex; 
       flex-direction: column; 
       justify-content: center; 
-      padding: 24px 20px; 
+      padding: 32px 20px; 
       transition: all 0.2s ease;
     }
 
@@ -82,11 +82,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* 질문 제목: 아래 여백 확대 */
     h2 { 
       font-size: 20px; 
       font-weight: 700; 
       line-height: 1.45; 
-      margin-bottom: 16px; 
+      margin-bottom: 28px; 
       word-break: keep-all; 
       letter-spacing: -0.02em;
     }
@@ -94,23 +95,24 @@
     p.desc { 
       font-size: 14px; 
       color: var(--text-sub); 
-      margin-bottom: 24px; 
+      margin-top: -16px;
+      margin-bottom: 28px; 
       line-height: 1.5; 
       word-break: keep-all; 
     }
 
-    /* 선택 옵션 버튼 */
+    /* 선택 옵션 버튼 그룹: 하단 버튼과의 여백 대폭 확대 */
     .options-group { 
       display: flex; 
       flex-direction: column; 
-      gap: 10px; 
-      margin-bottom: 28px; 
+      gap: 12px; 
+      margin-bottom: 40px; 
     }
 
     .option-label { 
       display: flex; 
       align-items: center; 
-      padding: 14px 16px; 
+      padding: 15px 18px; 
       border: 1px solid var(--border); 
       border-radius: var(--radius-md); 
       cursor: pointer; 
@@ -149,12 +151,12 @@
       display: flex; 
       justify-content: space-between; 
       gap: 8px; 
-      margin: 16px 0 8px; 
+      margin: 20px 0 10px; 
     }
 
     .scale-btn { 
       flex: 1; 
-      height: 50px; 
+      height: 52px; 
       border: 1px solid var(--border); 
       border-radius: var(--radius-md); 
       background: #fff; 
@@ -180,7 +182,7 @@
       justify-content: space-between; 
       font-size: 12px; 
       color: var(--text-sub); 
-      margin-bottom: 24px; 
+      margin-bottom: 40px; 
       font-weight: 500; 
     }
 
@@ -194,18 +196,21 @@
       font-size: 14px; 
       resize: none; 
       outline: none; 
-      margin-bottom: 24px; 
+      margin-bottom: 40px; 
       line-height: 1.5; 
       transition: border-color 0.15s ease;
     }
     textarea:focus { border-color: var(--primary); }
 
-    /* 하단 버튼 그룹 */
-    .btn-group { display: flex; gap: 8px; }
+    /* 하단 이동/제출 버튼 그룹 */
+    .btn-group { 
+      display: flex; 
+      gap: 10px; 
+    }
 
     button.nav-btn { 
       flex: 1; 
-      padding: 14px; 
+      padding: 15px; 
       border-radius: var(--radius-md); 
       font-size: 15px; 
       font-weight: 600; 
@@ -227,21 +232,46 @@
     /* PC 데스크톱 최적화 */
     @media (min-width: 768px) {
       .container { 
-        max-width: 600px; 
-        padding: 40px 24px; 
+        max-width: 620px; 
+        padding: 50px 24px; 
       }
 
       h2 { 
-        font-size: 22px; 
-        margin-bottom: 18px; 
+        font-size: 23px; 
+        margin-bottom: 36px; 
+      }
+
+      p.desc {
+        margin-top: -20px;
+        margin-bottom: 36px;
+        font-size: 15px;
+      }
+
+      .options-group {
+        gap: 14px;
+        margin-bottom: 48px;
+      }
+
+      .scale-labels {
+        margin-bottom: 48px;
+      }
+
+      textarea {
+        margin-bottom: 48px;
       }
 
       .option-label { 
-        padding: 15px 18px; 
+        padding: 17px 20px; 
+        font-size: 16px;
       }
 
       .scale-btn { 
-        height: 54px; 
+        height: 56px; 
+      }
+
+      button.nav-btn {
+        padding: 17px;
+        font-size: 16px;
       }
     }
   </style>
@@ -259,7 +289,7 @@
       <div class="card active" id="card-0">
         <div class="center-text">
           <h2>급식실 앞 위생 시설 이용<br>만족도 조사</h2>
-          <p class="desc" style="margin-top: 10px; margin-bottom: 24px;">
+          <p class="desc" style="margin-top: 14px; margin-bottom: 36px;">
             새로 설치된 문과 손소독기, 게이트 시설에 대한<br>
             학생 여러분의 솔직한 의견을 들려주세요.<br>
             <span style="font-size: 12px; color: #9ca3af;">(약 1분 소요)</span>
@@ -377,7 +407,7 @@
       <div class="card" id="card-complete">
         <div class="center-text">
           <h2>설문이 제출되었습니다!</h2>
-          <p class="desc" style="margin-top: 10px;">
+          <p class="desc" style="margin-top: 14px;">
             설문 제출 완료!<br>
             참여해 주셔서 감사합니다. 의견은 급식실 환경 개선에 참고할게요!
           </p>
