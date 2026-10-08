@@ -62,7 +62,7 @@
       padding: 20px 16px; 
     }
 
-    /* 카드 스타일 (여백 확대 및 그림자 완화) */
+    /* 카드 스타일 */
     .card { 
       background: var(--card-bg); 
       border-radius: var(--radius); 
@@ -110,7 +110,7 @@
       word-break: keep-all; 
     }
 
-    /* 선택 옵션 버튼 (터치 영역 확대) */
+    /* 선택 옵션 버튼 */
     .options-group { 
       display: flex; 
       flex-direction: column; 
@@ -217,6 +217,8 @@
     }
 
     .btn-prev { background: #e5e7eb; color: #374151; }
+    .btn-prev:disabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+    
     .btn-next, .btn-submit { background: var(--primary); color: #fff; }
     .btn-next:disabled, .btn-submit:disabled { background: #d1d5db; cursor: not-allowed; }
 
@@ -345,7 +347,8 @@
         <p class="desc">자유롭게 적어주시면 됩니다. (선택 사항)</p>
         <textarea name="q6" placeholder="자유롭게 의견을 입력해 주세요. (내용이 없으면 바로 제출하셔도 됩니다.)"></textarea>
         <div class="btn-group">
-          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <!-- ★ 이전 버튼 id 추가 -->
+          <button type="button" class="nav-btn btn-prev" id="prevBtn" onclick="prevCard()">이전</button>
           <button type="button" class="nav-btn btn-submit" id="submitBtn" onclick="submitSurvey()">제출하기</button>
         </div>
       </div>
@@ -366,7 +369,7 @@
   </div>
 
   <script>
-    // ★ 기존에 배포했던 Google Apps Script Web App URL을 그대로 넣어주세요!
+    // ★ 본인의 Google Apps Script 배포 URL을 여기에 유지/입력해 주세요!
     const SCRIPT_URL = "여기에_웹앱_URL을_붙여넣으세요";
 
     let currentCard = 0;
@@ -429,8 +432,12 @@
 
     async function submitSurvey() {
       const submitBtn = document.getElementById('submitBtn');
+      const prevBtn = document.getElementById('prevBtn');
+
+      // ★ 제출 시작 즉시 제출 버튼 및 이전 버튼 동시 비활성화
       submitBtn.disabled = true;
       submitBtn.innerText = "제출 중...";
+      if (prevBtn) prevBtn.disabled = true;
 
       const form = document.getElementById('surveyForm');
       const formData = new FormData(form);
@@ -450,21 +457,4 @@
       try {
         await fetch(SCRIPT_URL, {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-        document.getElementById('card-complete').classList.add('active');
-        document.getElementById('progressBar').style.width = '100%';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } catch (err) {
-        alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-        submitBtn.disabled = false;
-        submitBtn.innerText = "제출하기";
-      }
-    }
-  </script>
-</body>
-</html>
+          mode
