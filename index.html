@@ -6,15 +6,14 @@
   <title>급식실 앞 위생 시설 이용 만족도 조사</title>
   <style>
     :root {
-      /* AI 느낌 나는 파스텔 민트 대신 선명하고 단정한 딥 블루/네이비 계열 적용 */
-      --primary: #1d4ed8;         /* 메인 액센트 (신뢰감 있는 클래식 블루) */
-      --primary-hover: #1e40af;   /* 버튼 호버 */
-      --primary-light: #eff6ff;   /* 선택 항목 배경 (연한 틴트) */
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --primary-light: #eff6ff;
       --gray-bg: #ffffff;
       --card-bg: transparent;
-      --text-main: #0f172a;       /* 선명한 잉크 블랙 */
-      --text-sub: #475569;        /* 슬레이트 딥 그레이 */
-      --border: #cbd5e1;          /* 깔끔한 테두리 색상 */
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #cbd5e1;
       --radius: 2px;
     }
 
@@ -83,7 +82,7 @@
 
     /* 질문 제목 */
     h2 { 
-      font-size: 20px; 
+      font-size: 21px; 
       font-weight: 700; 
       line-height: 1.45; 
       margin-bottom: 24px; 
@@ -97,8 +96,26 @@
       color: var(--text-sub); 
       margin-top: -12px;
       margin-bottom: 24px; 
-      line-height: 1.5; 
+      line-height: 1.55; 
       word-break: keep-all; 
+    }
+
+    /* 시작 카드 커스텀 */
+    #card-0 h2 {
+      font-size: 24px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+    #card-0 .desc {
+      font-size: 15px;
+      margin-top: 0;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    #card-0 .start-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
     }
 
     /* 선택 옵션 그룹 */
@@ -227,15 +244,35 @@
 
     .center-text { text-align: center; }
 
-    /* PC 데스크톱 반응형 */
+    /* PC 데스크톱 반응형 스타일 */
     @media (min-width: 768px) {
       .container { 
-        max-width: 580px; 
+        max-width: 620px; 
         padding: 40px 24px; 
       }
 
+      /* 시작 화면 PC 폰트 크기 및 여백 확대 */
+      #card-0 h2 {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+      }
+
+      #card-0 .desc {
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 40px;
+      }
+
+      #card-0 .start-btn {
+        max-width: 320px;
+        margin: 0 auto;
+        padding: 18px;
+        font-size: 17px;
+      }
+
       h2 { 
-        font-size: 21px; 
+        font-size: 23px; 
         margin-bottom: 28px; 
       }
 
@@ -259,16 +296,18 @@
       }
 
       .option-label { 
-        padding: 15px 18px; 
-        font-size: 15px;
+        padding: 16px 20px; 
+        font-size: 16px;
       }
 
       .scale-btn { 
-        height: 50px; 
+        height: 52px; 
+        font-size: 18px;
       }
 
       button.nav-btn {
-        padding: 15px;
+        padding: 16px;
+        font-size: 16px;
       }
     }
   </style>
@@ -286,12 +325,12 @@
       <div class="card active" id="card-0">
         <div class="center-text">
           <h2>급식실 앞 위생 시설 이용<br>만족도 조사</h2>
-          <p class="desc" style="margin-top: 12px; margin-bottom: 32px;">
+          <p class="desc">
             새로 설치된 문과 손소독기, 게이트 시설에 대한<br>
             학생 여러분의 솔직한 의견을 들려주세요.<br>
-            <span style="font-size: 12px; color: #94a3b8;">(약 1분 소요)</span>
+            <span style="font-size: 13px; color: #94a3b8; display: inline-block; margin-top: 4px;">(약 1분 소요)</span>
           </p>
-          <button type="button" class="nav-btn btn-next" style="width: 100%;" onclick="nextCard()">설문 시작하기</button>
+          <button type="button" class="nav-btn btn-next start-btn" onclick="nextCard()">설문 시작하기</button>
         </div>
       </div>
 
