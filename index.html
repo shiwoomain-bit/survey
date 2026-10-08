@@ -50,7 +50,7 @@
       transition: width 0.3s ease; 
     }
 
-    /* 모바일 가로폭 컨테이너 */
+    /* 기본 모바일 가로폭 컨테이너 */
     .container { 
       width: 100%; 
       max-width: 500px; 
@@ -60,6 +60,7 @@
       flex-direction: column; 
       justify-content: center; 
       padding: 20px 20px; 
+      transition: all 0.3s ease;
     }
 
     /* 카드 스타일 (배경 통일 및 테두리/그림자 제거) */
@@ -132,6 +133,10 @@
       line-height: 1.4;
     }
 
+    .option-label:hover {
+      border-color: #cbd5e1;
+    }
+
     .option-label:active {
       transform: scale(0.99);
     }
@@ -145,7 +150,7 @@
     }
 
     .option-label.selected { 
-      border-color: var(--primary); 
+      border-color: var(--primary) !important; 
       background: var(--primary-light); 
       color: var(--primary); 
       font-weight: 600; 
@@ -172,6 +177,10 @@
       transition: all 0.15s ease;
     }
 
+    .scale-btn:hover {
+      border-color: #cbd5e1;
+    }
+
     .scale-btn.selected { 
       background: var(--primary); 
       color: #fff; 
@@ -190,7 +199,7 @@
     /* 주관식 서술형 인풋 */
     textarea { 
       width: 100%; 
-      height: 130px; 
+      height: 140px; 
       border: 1.5px solid var(--border); 
       border-radius: 14px; 
       padding: 16px; 
@@ -217,13 +226,51 @@
     }
 
     .btn-prev { background: #e5e7eb; color: #374151; }
+    .btn-prev:hover { background: #d1d5db; }
     .btn-prev:disabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
     
     .btn-next, .btn-submit { background: var(--primary); color: #fff; }
+    .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
     .btn-next:disabled, .btn-submit:disabled { background: #d1d5db; cursor: not-allowed; }
 
     /* 중앙 정렬 스타일 */
     .center-text { text-align: center; }
+
+    /* -------------------------------------------
+       PC / 데스크톱 화면 전용 반응형 미디어 쿼리 
+       (화면 가로 폭이 768px 이상일 때 자동 적용)
+       ------------------------------------------- */
+    @media (min-width: 768px) {
+      .container { 
+        max-width: 650px; 
+        padding: 40px 24px; 
+      }
+
+      h2 { 
+        font-size: 24px; 
+        margin-bottom: 14px; 
+      }
+
+      p.desc { 
+        font-size: 16px; 
+        margin-bottom: 30px; 
+      }
+
+      .option-label { 
+        padding: 18px 20px; 
+        font-size: 16px; 
+      }
+
+      .scale-btn { 
+        height: 62px; 
+        font-size: 20px; 
+      }
+
+      button.nav-btn { 
+        padding: 18px; 
+        font-size: 17px; 
+      }
+    }
   </style>
 </head>
 <body>
