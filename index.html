@@ -9,12 +9,12 @@
       --primary: #1d4ed8;
       --primary-hover: #1e40af;
       --primary-light: #eff6ff;
-      --gray-bg: #ffffff;
-      --card-bg: transparent;
+      --gray-bg: #f8fafc;
+      --surface: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
-      --border: #cbd5e1;
-      --radius: 2px;
+      --border: #e2e8f0;
+      --radius: 4px;
     }
 
     * { 
@@ -39,7 +39,7 @@
       top: 0; 
       left: 0; 
       width: 100%; 
-      height: 3px; 
+      height: 4px; 
       background: #e2e8f0; 
       z-index: 100; 
     }
@@ -47,10 +47,35 @@
       height: 100%; 
       width: 0%; 
       background: var(--primary); 
-      transition: width 0.2s ease; 
+      transition: width 0.25s ease; 
     }
 
-    /* 가로폭 컨테이너 */
+    /* 상단 네비게이션 헤더 (PC에서 휑한 느낌을 완벽하게 없애줌) */
+    .site-header {
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header .logo-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .site-header .badge-tag {
+      font-size: 12px;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 4px 8px;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+
+    /* 기본 모바일 레이아웃 */
     .container { 
       width: 100%; 
       max-width: 500px; 
@@ -59,30 +84,28 @@
       display: flex; 
       flex-direction: column; 
       justify-content: center; 
-      padding: 32px 20px; 
+      padding: 24px 20px; 
     }
 
-    /* 카드 스타일 */
     .card { 
-      background: var(--card-bg); 
-      padding: 20px 0; 
-      box-shadow: none; 
+      background: var(--surface); 
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 20px; 
       display: none; 
-      border: none; 
     }
     .card.active { 
       display: block; 
-      animation: fadeIn 0.15s ease-out; 
+      animation: fadeIn 0.2s ease-out; 
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 질문 제목 */
     h2 { 
-      font-size: 21px; 
+      font-size: 20px; 
       font-weight: 700; 
       line-height: 1.45; 
       margin-bottom: 24px; 
@@ -100,57 +123,61 @@
       word-break: keep-all; 
     }
 
-    /* 시작 카드 커스텀 */
-    #card-0 h2 {
-      font-size: 24px;
-      line-height: 1.4;
-      margin-bottom: 16px;
+    /* 시작 화면 전용 스타일 */
+    .start-box {
+      text-align: left;
     }
-    #card-0 .desc {
-      font-size: 15px;
-      margin-top: 0;
-      margin-bottom: 32px;
-      line-height: 1.6;
+    .start-box h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
     }
-    #card-0 .start-btn {
-      width: 100%;
+    .info-panel {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
       padding: 16px;
-      font-size: 16px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-sub);
+    }
+    .info-panel strong {
+      color: var(--text-main);
     }
 
     /* 선택 옵션 그룹 */
     .options-group { 
       display: flex; 
       flex-direction: column; 
-      gap: 8px; 
-      margin-bottom: 36px; 
+      gap: 10px; 
+      margin-bottom: 32px; 
     }
 
     .option-label { 
       display: flex; 
       align-items: center; 
-      padding: 14px 16px; 
+      padding: 15px 18px; 
       border: 1px solid var(--border); 
       border-radius: var(--radius); 
       cursor: pointer; 
       font-size: 15px; 
       font-weight: 500; 
       background: #fff; 
-      transition: border-color 0.15s ease, background-color 0.15s ease;
+      transition: all 0.15s ease;
       line-height: 1.4;
       color: var(--text-main);
     }
 
     .option-label:hover {
-      border-color: #64748b;
+      border-color: #94a3b8;
+      background: #fafafa;
     }
 
     .option-label input { 
-      margin-right: 12px; 
+      margin-right: 14px; 
       accent-color: var(--primary); 
-      width: 16px; 
-      height: 16px; 
-      border-radius: 0;
+      width: 17px; 
+      height: 17px; 
       flex-shrink: 0;
     }
 
@@ -165,17 +192,17 @@
     .scale-group { 
       display: flex; 
       justify-content: space-between; 
-      gap: 6px; 
+      gap: 8px; 
       margin: 16px 0 8px; 
     }
 
     .scale-btn { 
       flex: 1; 
-      height: 48px; 
+      height: 50px; 
       border: 1px solid var(--border); 
       border-radius: var(--radius); 
       background: #fff; 
-      font-size: 17px; 
+      font-size: 18px; 
       font-weight: 600; 
       color: var(--text-sub); 
       cursor: pointer; 
@@ -183,7 +210,7 @@
     }
 
     .scale-btn:hover {
-      border-color: #64748b;
+      border-color: #94a3b8;
     }
 
     .scale-btn.selected { 
@@ -195,23 +222,23 @@
     .scale-labels { 
       display: flex; 
       justify-content: space-between; 
-      font-size: 12px; 
+      font-size: 13px; 
       color: var(--text-sub); 
-      margin-bottom: 36px; 
+      margin-bottom: 32px; 
       font-weight: 500; 
     }
 
     /* 주관식 텍스트 영역 */
     textarea { 
       width: 100%; 
-      height: 120px; 
+      height: 130px; 
       border: 1px solid var(--border); 
       border-radius: var(--radius); 
-      padding: 12px 14px; 
+      padding: 14px; 
       font-size: 14px; 
       resize: none; 
       outline: none; 
-      margin-bottom: 36px; 
+      margin-bottom: 32px; 
       line-height: 1.5; 
       color: var(--text-main);
     }
@@ -220,12 +247,12 @@
     /* 하단 버튼 그룹 */
     .btn-group { 
       display: flex; 
-      gap: 8px; 
+      gap: 10px; 
     }
 
     button.nav-btn { 
       flex: 1; 
-      padding: 14px; 
+      padding: 15px; 
       border-radius: var(--radius); 
       font-size: 15px; 
       font-weight: 600; 
@@ -234,7 +261,7 @@
       transition: background-color 0.15s ease;
     }
 
-    .btn-prev { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+    .btn-prev { background: #f1f5f9; color: #334155; border: 1px solid var(--border); }
     .btn-prev:hover { background: #e2e8f0; }
     .btn-prev:disabled { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; cursor: not-allowed; }
     
@@ -242,70 +269,94 @@
     .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
     .btn-next:disabled, .btn-submit:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
 
-    .center-text { text-align: center; }
-
-    /* PC 데스크톱 반응형 스타일 */
+    /* --------------------------------------------------------
+       [PC 데스크톱 전용 반응형: 화면 전체를 시원하고 알차게 씀]
+       -------------------------------------------------------- */
     @media (min-width: 768px) {
-      .container { 
-        max-width: 620px; 
-        padding: 40px 24px; 
+      .site-header {
+        padding: 18px 48px;
       }
-
-      /* 시작 화면 PC 폰트 크기 및 여백 확대 */
-      #card-0 h2 {
-        font-size: 30px;
-        line-height: 1.4;
-        margin-bottom: 20px;
-      }
-
-      #card-0 .desc {
+      .site-header .logo-title {
         font-size: 16px;
-        line-height: 1.7;
-        margin-bottom: 40px;
       }
 
-      #card-0 .start-btn {
-        max-width: 320px;
-        margin: 0 auto;
-        padding: 18px;
-        font-size: 17px;
+      /* PC에서는 가운데 좁은 상자가 아니라 위에서부터 시원하게 840px 폭으로 배치 */
+      .container { 
+        max-width: 840px; 
+        justify-content: flex-start;
+        padding: 48px 24px; 
       }
 
+      .card {
+        padding: 44px 48px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      /* 시작 화면 PC 레이아웃 */
+      .start-box h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+      }
+      .info-panel {
+        font-size: 15px;
+        padding: 24px;
+        margin-bottom: 36px;
+      }
+      .start-btn-wrap {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .start-btn-wrap button {
+        width: 240px;
+        padding: 17px;
+        font-size: 16px;
+      }
+
+      /* 질문 제목 및 설명 */
       h2 { 
-        font-size: 23px; 
+        font-size: 24px; 
         margin-bottom: 28px; 
       }
-
       p.desc {
+        font-size: 15px;
         margin-top: -16px;
         margin-bottom: 28px;
-        font-size: 15px;
       }
 
+      /* 객관식 항목들을 PC에서는 넓게 2열 그리드로 자동 정렬 (공간 낭비 제거) */
       .options-group {
-        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
         margin-bottom: 40px;
       }
 
-      .scale-labels {
-        margin-bottom: 40px;
-      }
-
-      textarea {
-        margin-bottom: 40px;
-      }
-
+      /* 선택지 버튼 내부 패딩 확장 */
       .option-label { 
-        padding: 16px 20px; 
+        padding: 18px 20px; 
         font-size: 16px;
       }
 
+      /* 5점 척도 버튼 */
       .scale-btn { 
-        height: 52px; 
-        font-size: 18px;
+        height: 60px; 
+        font-size: 20px;
       }
 
-      button.nav-btn {
+      /* 주관식 창 */
+      textarea {
+        height: 150px;
+        font-size: 15px;
+        margin-bottom: 40px;
+      }
+
+      /* PC 하단 버튼은 오른쪽 정렬로 안정감 있게 구성 */
+      .btn-group {
+        justify-content: flex-end;
+      }
+      .btn-group button.nav-btn {
+        flex: none;
+        width: 160px;
         padding: 16px;
         font-size: 16px;
       }
@@ -314,23 +365,37 @@
 </head>
 <body>
 
+  <!-- 상단 진행 게이지 바 -->
   <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
   </div>
+
+  <!-- 상단 헤더 바 (PC에서 허전함을 없애는 핵심 요소) -->
+  <header class="site-header">
+    <div class="logo-title">급식실 시설 개선 만족도 조사</div>
+    <div class="badge-tag">설문조사</div>
+  </header>
 
   <div class="container">
     <form id="surveyForm">
       
       <!-- 안내 시작 화면 -->
       <div class="card active" id="card-0">
-        <div class="center-text">
-          <h2>급식실 앞 위생 시설 이용<br>만족도 조사</h2>
-          <p class="desc">
-            새로 설치된 문과 손소독기, 게이트 시설에 대한<br>
-            학생 여러분의 솔직한 의견을 들려주세요.<br>
-            <span style="font-size: 13px; color: #94a3b8; display: inline-block; margin-top: 4px;">(약 1분 소요)</span>
-          </p>
-          <button type="button" class="nav-btn btn-next start-btn" onclick="nextCard()">설문 시작하기</button>
+        <div class="start-box">
+          <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
+          <div class="info-panel">
+            <p style="margin-bottom: 10px;">
+              학생 여러분 안녕하세요.<br>
+              최근 급식실 입구에 새로 설치된 <strong>새 문, 손소독기, 게이트 시설</strong>에 대한 솔직한 의견을 듣고자 합니다.
+            </p>
+            <p>
+              제출해주신 소중한 피드백은 출입 동선 정리 및 위생 시설 운영 방식을 개선하는 데 적극 반영될 예정입니다.<br>
+              <strong>소요 시간:</strong> 약 1분 (총 7문항)
+            </p>
+          </div>
+          <div class="start-btn-wrap">
+            <button type="button" class="nav-btn btn-next" onclick="nextCard()">설문 시작하기</button>
+          </div>
         </div>
       </div>
 
@@ -441,12 +506,12 @@
 
       <!-- 제출 완료 화면 -->
       <div class="card" id="card-complete">
-        <div class="center-text">
-          <h2>설문이 제출되었습니다!</h2>
-          <p class="desc" style="margin-top: 12px;">
-            설문 제출 완료!<br>
-            참여해 주셔서 감사합니다. 의견은 급식실 환경 개선에 참고할게요!
-          </p>
+        <div style="text-align: left;">
+          <h2>설문이 정상적으로 제출되었습니다.</h2>
+          <div class="info-panel" style="margin-top: 16px;">
+            설문에 참여해 주셔서 감사합니다.<br>
+            작성해 주신 의견을 바탕으로 보다 쾌적하고 편리한 급식실 환경을 만들겠습니다.
+          </div>
         </div>
       </div>
 
