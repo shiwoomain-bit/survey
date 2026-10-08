@@ -6,16 +6,15 @@
   <title>급식실 위생 시설 만족도 설문</title>
   <style>
     :root {
-      /* 초록색 테마 색상 팔레트 */
-      --primary: #10b981;         /* 메인 에메랄드 그린 */
-      --primary-hover: #059669;   /* 버튼 호버 시 짙은 그린 */
-      --primary-light: #ecfdf5;   /* 배지 및 선택 배경용 연한 민트그린 */
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --primary-light: #ecfdf5;
       --gray-bg: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-sub: #64748b;
       --border: #e2e8f0;
-      --radius: 16px;
+      --radius: 18px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif; }
@@ -25,10 +24,10 @@
     .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #e2e8f0; z-index: 100; }
     .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    .container { max-width: 540px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; }
+    .container { max-width: 520px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; }
 
     /* 카드 스타일 */
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 32px 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); display: none; animation: fadeIn 0.35s ease; border: 1px solid var(--border); }
+    .card { background: var(--card-bg); border-radius: var(--radius); padding: 36px 26px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); display: none; animation: fadeIn 0.35s ease; border: 1px solid var(--border); }
     .card.active { display: block; }
 
     @keyframes fadeIn {
@@ -36,15 +35,15 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .step-badge { display: inline-block; font-size: 13px; font-weight: 700; color: #059669; background: var(--primary-light); padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; }
-    h2 { font-size: 20px; font-weight: 700; line-height: 1.45; margin-bottom: 8px; word-break: keep-all; }
-    p.desc { font-size: 14px; color: var(--text-sub); margin-bottom: 24px; line-height: 1.4; }
+    .step-badge { display: inline-block; font-size: 13px; font-weight: 700; color: #059669; background: var(--primary-light); padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+    h2 { font-size: 20px; font-weight: 700; line-height: 1.5; margin-bottom: 10px; word-break: keep-all; }
+    p.desc { font-size: 14.5px; color: var(--text-sub); margin-bottom: 24px; line-height: 1.6; word-break: keep-all; }
 
     /* 선택 옵션 버튼 */
     .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .option-label { display: flex; align-items: center; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 15px; font-weight: 500; background: #fff; }
+    .option-label { display: flex; align-items: center; padding: 15px 18px; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 15px; font-weight: 500; background: #fff; word-break: keep-all; }
     .option-label:hover { border-color: #6ee7b7; background: #f0fdf4; }
-    .option-label input { margin-right: 12px; accent-color: var(--primary); width: 18px; height: 18px; }
+    .option-label input { margin-right: 12px; accent-color: var(--primary); width: 18px; height: 18px; flex-shrink: 0; }
     .option-label.selected { border-color: var(--primary); background: var(--primary-light); color: #047857; font-weight: 600; }
 
     /* 5점 척도 버튼 */
@@ -52,15 +51,15 @@
     .scale-btn { flex: 1; height: 52px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; font-size: 17px; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
     .scale-btn:hover { border-color: #6ee7b7; }
     .scale-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .scale-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sub); margin-bottom: 28px; font-weight: 500; }
+    .scale-labels { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-sub); margin-bottom: 28px; font-weight: 500; }
 
     /* 주관식 인풋 */
-    textarea { width: 100%; height: 110px; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; font-size: 14px; resize: none; outline: none; margin-bottom: 24px; }
+    textarea { width: 100%; height: 110px; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; font-size: 14.5px; resize: none; outline: none; margin-bottom: 24px; }
     textarea:focus { border-color: var(--primary); }
 
     /* 하단 이동 버튼 */
     .btn-group { display: flex; gap: 10px; }
-    button.nav-btn { flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+    button.nav-btn { flex: 1; padding: 15px; border-radius: 12px; font-size: 15.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
     .btn-prev { background: #f1f5f9; color: #475569; }
     .btn-next, .btn-submit { background: var(--primary); color: #fff; }
     .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
@@ -68,7 +67,7 @@
 
     /* 시작 / 완료 화면 */
     .center-text { text-align: center; }
-    .welcome-icon { font-size: 44px; margin-bottom: 12px; }
+    .welcome-icon { font-size: 46px; margin-bottom: 14px; }
   </style>
 </head>
 <body>
@@ -85,7 +84,9 @@
         <div class="center-text">
           <div class="welcome-icon">🍱</div>
           <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
-          <p class="desc" style="margin-top: 8px; margin-bottom: 24px;">새로 설치된 문과 손소독기, 게이트 시설에 대한 솔직한 의견을 들려주세요. (소요시간 약 1분)</p>
+          <p class="desc" style="margin-top: 10px; margin-bottom: 26px;">
+            새로 설치된 문과 손소독기, 게이트 시설에 대한<br>학생 여러분의 솔직한 의견을 들려주세요. (약 1분 소요)
+          </p>
           <button type="button" class="nav-btn btn-next" style="width: 100%;" onclick="nextCard()">설문 시작하기</button>
         </div>
       </div>
@@ -109,7 +110,7 @@
       <!-- Q2 -->
       <div class="card" id="card-2">
         <span class="step-badge">질문 2 / 7</span>
-        <h2>문을 통과할 때 손소독기를 사용하는 것이 편리한가요?</h2>
+        <h2>새 문을 통과할 때 손소독기를 사용하는 것이 편리한가요?</h2>
         <p class="desc">1점(매우 불편함)부터 5점(매우 편리함)까지 선택해 주세요.</p>
         <div class="scale-group">
           <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
@@ -132,7 +133,7 @@
       <!-- Q3 -->
       <div class="card" id="card-3">
         <span class="step-badge">질문 3 / 7</span>
-        <h2>설치 이후 급식실 위생 상태가 개선되었다고 느끼시나요?</h2>
+        <h2>설치 이후 급식실 주변 위생 상태가 개선되었다고 느끼시나요?</h2>
         <p class="desc">체감하시는 정도를 선택해 주세요.</p>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 매우 개선됨</label>
@@ -179,10 +180,10 @@
         </div>
       </div>
 
-      <!-- Q6 -->
+      <!-- Q6: 손소독 게이트에 대한 생각 ('자동문' 제외) -->
       <div class="card" id="card-6">
         <span class="step-badge">질문 6 / 7</span>
-        <h2>급식실 입구의 '손소독 게이트'에 대해 전반적으로 어떻게 생각하시나요?</h2>
+        <h2>급식실 입구의 '손소독 게이트(손소독 후 문 개방 시스템)'에 대해 전반적으로 어떻게 생각하시나요?</h2>
         <p class="desc">가장 공감되는 의견을 골라주세요.</p>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q6" value="매우 긍정적 (위생 관리에 꼭 필요하다)" onchange="enableNext(6)"> 매우 긍정적 (위생 관리에 꼭 필요하다)</label>
@@ -197,7 +198,7 @@
         </div>
       </div>
 
-      <!-- Q7 -->
+      <!-- Q7: 자유 건의사항 -->
       <div class="card" id="card-7">
         <span class="step-badge">질문 7 / 7</span>
         <h2>급식실 위생 시설 및 손소독 게이트 개선을 위해 바라는 점이 있다면 적어주세요.</h2>
