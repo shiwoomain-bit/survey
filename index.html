@@ -9,12 +9,12 @@
       --primary: #1d4ed8;
       --primary-hover: #1e40af;
       --primary-light: #eff6ff;
-      --gray-bg: #ffffff;   /* 전체 배경 순백색 통일 */
+      --gray-bg: #ffffff;
       --surface: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
       --border: #e2e8f0;
-      --radius: 4px;
+      --radius: 6px;
     }
 
     * { 
@@ -50,7 +50,7 @@
       transition: width 0.25s ease; 
     }
 
-    /* 상단 네비게이션 헤더 */
+    /* 상단 헤더 */
     .site-header {
       width: 100%;
       background: #ffffff;
@@ -77,7 +77,7 @@
       padding-left: 12px;
     }
 
-    /* 레이아웃 컨테이너 */
+    /* 컨테이너 */
     .container { 
       width: 100%; 
       max-width: 500px; 
@@ -89,7 +89,7 @@
       padding: 36px 20px; 
     }
 
-    /* 카드 스타일 (상자 테두리 및 그림자 제거) */
+    /* 카드 */
     .card { 
       background: transparent; 
       border: none;
@@ -126,26 +126,39 @@
       word-break: keep-all; 
     }
 
-    /* 시작 화면 */
+    /* 시작 화면 안내 박스 */
     .start-box {
       text-align: left;
     }
     .start-box h2 {
       font-size: 22px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
     .info-panel {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 22px;
       margin-bottom: 28px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+      color: #334155;
+    }
+    .info-panel p {
+      margin-bottom: 12px;
+    }
+    .info-panel p:last-child {
+      margin-bottom: 0;
     }
     .info-panel strong {
       color: var(--text-main);
+    }
+    .info-meta {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed #cbd5e1;
     }
 
     /* 선택 옵션 그룹 */
@@ -247,7 +260,7 @@
     }
     textarea:focus { border-color: var(--primary); }
 
-    /* 하단 버튼 그룹 */
+    /* 하단 버튼 */
     .btn-group { 
       display: flex; 
       gap: 10px; 
@@ -272,7 +285,7 @@
     .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
     .btn-next:disabled, .btn-submit:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
 
-    /* PC 데스크톱 전용 반응형 */
+    /* PC 데스크톱 반응형 */
     @media (min-width: 768px) {
       .site-header {
         padding: 16px 48px;
@@ -284,24 +297,18 @@
         font-size: 16px;
       }
 
-      /* 헤더 아래로 여백을 두고 시원하게 배치 */
       .container { 
         max-width: 840px; 
         padding: 60px 24px; 
       }
 
-      .card {
-        padding: 0;
-        box-shadow: none;
-      }
-
       .start-box h2 {
-        font-size: 28px;
-        margin-bottom: 16px;
+        font-size: 26px;
+        margin-bottom: 20px;
       }
       .info-panel {
-        font-size: 15px;
-        padding: 24px;
+        font-size: 16px;
+        padding: 28px;
         margin-bottom: 36px;
       }
       .start-btn-wrap {
@@ -324,7 +331,6 @@
         margin-bottom: 28px;
       }
 
-      /* 객관식 항목 2열 그리드 배치 */
       .options-group {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -371,7 +377,7 @@
   <header class="site-header">
     <div class="header-left">
       <img src="logo.png" alt="이우학교 로고" class="school-logo">
-      <div class="logo-title">급식실 시설 개선 만족도 조사</div>
+      <div class="logo-title">급식실 시설 개선 설문조사</div>
     </div>
   </header>
 
@@ -383,14 +389,17 @@
         <div class="start-box">
           <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
           <div class="info-panel">
-            <p style="margin-bottom: 10px;">
-              학생 여러분 안녕하세요.<br>
-              최근 급식실 입구에 새로 설치된 <strong>새 문, 손소독기, 게이트 시설</strong>에 대한 솔직한 의견을 듣고자 합니다.
+            <p>
+              안녕하세요!<br>
+              최근 급식실 입구에 새로 생긴 <strong>입구 문이랑 손소독기 게이트</strong>, 다들 써보셨나요?
             </p>
             <p>
-              제출해주신 소중한 피드백은 출입 동선 정리 및 위생 시설 운영 방식을 개선하는 데 적극 반영될 예정입니다.<br>
-              <strong>소요 시간:</strong> 약 1분 (총 7문항)
+              실제로 다니면서 편했던 점이나 개선됐으면 하는 점이 있다면 솔직하게 들려주세요.<br>
+              보내주신 의견을 모아서 더 다니기 편하고 쾌적한 급식실 환경을 만드는 데 적극 참고할게요!
             </p>
+            <div class="info-meta">
+              소요 시간: 약 1분 (총 7문항)
+            </div>
           </div>
           <div class="start-btn-wrap">
             <button type="button" class="nav-btn btn-next" onclick="nextCard()">설문 시작하기</button>
@@ -400,11 +409,11 @@
 
       <!-- Q1 -->
       <div class="card" id="card-1">
-        <h2>급식실 앞에 새로운 문과 손소독기가 설치된 사실을 알고 계셨나요?</h2>
+        <h2>급식실 앞에 새로운 문과 손소독기가 설치된 걸 알고 계셨나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="radio" name="q1" value="매우 잘 알고 있다" onchange="enableNext(1)"> 매우 잘 알고 있다</label>
-          <label class="option-label"><input type="radio" name="q1" value="알고는 있었으나 자세히 보지 않았다" onchange="enableNext(1)"> 알고는 있었으나 자세히 보지 않았다</label>
-          <label class="option-label"><input type="radio" name="q1" value="설문조사를 통해 처음 알았다" onchange="enableNext(1)"> 설문조사를 통해 처음 알았다</label>
+          <label class="option-label"><input type="radio" name="q1" value="매우 잘 알고 있다" onchange="enableNext(1)"> 잘 알고 있다</label>
+          <label class="option-label"><input type="radio" name="q1" value="알고는 있었으나 자세히 보지 않았다" onchange="enableNext(1)"> 보긴 했는데 자세히는 몰랐다</label>
+          <label class="option-label"><input type="radio" name="q1" value="설문조사를 통해 처음 알았다" onchange="enableNext(1)"> 이번 설문을 보고 처음 알았다</label>
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -414,8 +423,8 @@
 
       <!-- Q2 -->
       <div class="card" id="card-2">
-        <h2>새 문을 통과할 때 손소독기를 사용하는 것이 편리한가요?</h2>
-        <p class="desc">1점(매우 불편함)부터 5점(매우 편리함)까지 선택해 주세요.</p>
+        <h2>새 문을 지나갈 때 손소독기를 사용하는 게 편한가요?</h2>
+        <p class="desc">1점(매우 불편함)부터 5점(매우 편리함) 사이에서 골라주세요.</p>
         <div class="scale-group">
           <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
           <button type="button" class="scale-btn" onclick="selectScore(2)">2</button>
@@ -424,8 +433,8 @@
           <button type="button" class="scale-btn" onclick="selectScore(5)">5</button>
         </div>
         <div class="scale-labels">
-          <span>전혀 아님 (1점)</span>
-          <span>매우 그러함 (5점)</span>
+          <span>매우 불편함 (1점)</span>
+          <span>매우 편리함 (5점)</span>
         </div>
         <input type="hidden" name="q2" id="q2-input">
         <div class="btn-group">
@@ -436,12 +445,12 @@
 
       <!-- Q3 -->
       <div class="card" id="card-3">
-        <h2>새 문과 손소독기 설치 이후 위생 상태가 개선되었다고 느끼시나요?</h2>
+        <h2>새 문과 손소독기가 생기고 나서 위생 상태가 더 나아진 것 같나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 매우 개선됨</label>
-          <label class="option-label"><input type="radio" name="q3" value="조금 개선됨" onchange="enableNext(3)"> 조금 개선됨</label>
-          <label class="option-label"><input type="radio" name="q3" value="비슷함" onchange="enableNext(3)"> 비슷함</label>
-          <label class="option-label"><input type="radio" name="q3" value="전혀 개선되지 않음" onchange="enableNext(3)"> 전혀 개선되지 않음</label>
+          <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 훨씬 깨끗해진 것 같다</label>
+          <label class="option-label"><input type="radio" name="q3" value="조금 개선됨" onchange="enableNext(3)"> 조금은 나아진 것 같다</label>
+          <label class="option-label"><input type="radio" name="q3" value="비슷함" onchange="enableNext(3)"> 이전과 별 차이 없다</label>
+          <label class="option-label"><input type="radio" name="q3" value="전혀 개선되지 않음" onchange="enableNext(3)"> 전혀 그렇지 않다</label>
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -451,11 +460,11 @@
 
       <!-- Q4 -->
       <div class="card" id="card-4">
-        <h2>설치 전과 비교했을 때 손 소독제를 더 자주 사용하시나요?</h2>
+        <h2>설치 전이랑 비교했을 때 손 소독제를 더 자주 쓰게 되나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 훨씬 많이 사용한다</label>
-          <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 이전과 비슷하게 사용한다</label>
-          <label class="option-label"><input type="radio" name="q4" value="거의 사용하지 않는다" onchange="enableNext(4)"> 거의 사용하지 않는다</label>
+          <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 전보다 훨씬 자주 쓴다</label>
+          <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 전이랑 비슷하게 쓴다</label>
+          <label class="option-label"><input type="radio" name="q4" value="거의 사용하지 않는다" onchange="enableNext(4)"> 거의 쓰지 않는다</label>
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -465,12 +474,12 @@
 
       <!-- Q5 -->
       <div class="card" id="card-5">
-        <h2>손소독기를 이용하면서 가장 불편했던 점은 무엇인가요?</h2>
+        <h2>손소독기를 쓰면서 가장 불편했던 점은 무엇이었나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="checkbox" name="q5" value="출입 동선이 복잡해짐" onchange="checkQ5()"> 출입 동선이 복잡해짐</label>
-          <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 끈적임" onchange="checkQ5()"> 소독제 냄새가 강하거나 끈적임</label>
-          <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 줄 서는 대기 시간이 길어짐</label>
-          <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 불편한 점 없음</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="출입 동선이 복잡해짐" onchange="checkQ5()"> 지나다니는 동선이 복잡해짐</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 끈적임" onchange="checkQ5()"> 소독제 냄새나 손에 남는 끈적임</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 입구에서 줄 서는 시간이 길어짐</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 특별히 불편한 점 없음</label>
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -480,12 +489,12 @@
 
       <!-- Q6 -->
       <div class="card" id="card-6">
-        <h2>손소독을 해야 문이 열리는 게이트 방식에 대해 어떻게 생각하시나요?</h2>
+        <h2>'손소독을 해야 문이 열리는 게이트 방식'에 대해 어떻게 생각하나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="radio" name="q6" value="위생 관리를 위해 매우 효과적이다" onchange="enableNext(6)"> 위생 관리를 위해 매우 효과적이다</label>
-          <label class="option-label"><input type="radio" name="q6" value="효과는 있으나 동선이 다소 불편하다" onchange="enableNext(6)"> 효과는 있으나 동선이 다소 불편하다</label>
-          <label class="option-label"><input type="radio" name="q6" value="강제적이라 불편함이 더 크다" onchange="enableNext(6)"> 강제적이라 불편함이 더 크다</label>
-          <label class="option-label"><input type="radio" name="q6" value="별다른 생각이 없다 / 상관없다" onchange="enableNext(6)"> 별다른 생각이 없다 / 상관없다</label>
+          <label class="option-label"><input type="radio" name="q6" value="위생 관리를 위해 매우 효과적이다" onchange="enableNext(6)"> 위생 관리에 확실히 도움 된다</label>
+          <label class="option-label"><input type="radio" name="q6" value="효과는 있으나 동선이 다소 불편하다" onchange="enableNext(6)"> 도움은 되지만 이동할 때 좀 불편하다</label>
+          <label class="option-label"><input type="radio" name="q6" value="강제적이라 불편함이 더 크다" onchange="enableNext(6)"> 억지로 해야 해서 불편한 마음이 더 크다</label>
+          <label class="option-label"><input type="radio" name="q6" value="별다른 생각이 없다 / 상관없다" onchange="enableNext(6)"> 별생각 없다 / 상관없다</label>
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -495,8 +504,8 @@
 
       <!-- Q7 -->
       <div class="card" id="card-7">
-        <h2>급식실 위생과 관련해서 불편한 점이나 개선됐으면 하는 점이 있나요?</h2>
-        <textarea name="q7" placeholder="자유롭게 의견을 입력해 주세요. (내용이 없으면 바로 제출하셔도 됩니다.)"></textarea>
+        <h2>마지막으로 급식실 위생이나 입구 시설에 바라는 점이 있다면 적어주세요!</h2>
+        <textarea name="q7" placeholder="솔직한 생각을 편하게 적어주세요. (딱히 없다면 바로 제출하셔도 괜찮아요!)"></textarea>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" id="prevBtn" onclick="prevCard()">이전</button>
           <button type="button" class="nav-btn btn-submit" id="submitBtn" onclick="submitSurvey()">제출하기</button>
@@ -506,10 +515,10 @@
       <!-- 제출 완료 화면 -->
       <div class="card" id="card-complete">
         <div style="text-align: left;">
-          <h2>설문이 정상적으로 제출되었습니다.</h2>
+          <h2>설문 참여가 완료되었습니다.</h2>
           <div class="info-panel" style="margin-top: 16px;">
-            설문에 참여해 주셔서 감사합니다.<br>
-            작성해 주신 의견을 바탕으로 보다 쾌적하고 편리한 급식실 환경을 만들겠습니다.
+            소중한 시간 내서 응답해 줘서 고마워요!<br>
+            보내준 의견들 잘 모아서 더 편리하고 좋은 급식실 환경을 만들어볼게요.
           </div>
         </div>
       </div>
