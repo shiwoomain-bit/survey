@@ -9,8 +9,8 @@
       --primary: #10b981;
       --primary-hover: #059669;
       --primary-light: #ecfdf5;
-      --gray-bg: #f3f4f6;
-      --card-bg: #ffffff;
+      --gray-bg: #ffffff;
+      --card-bg: transparent;
       --text-main: #111827;
       --text-sub: #4b5563;
       --border: #e5e7eb;
@@ -59,17 +59,17 @@
       display: flex; 
       flex-direction: column; 
       justify-content: center; 
-      padding: 20px 16px; 
+      padding: 20px 20px; 
     }
 
-    /* 카드 스타일 */
+    /* 카드 스타일 (배경 통일 및 테두리/그림자 제거) */
     .card { 
       background: var(--card-bg); 
       border-radius: var(--radius); 
-      padding: 36px 22px; 
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); 
+      padding: 30px 4px; 
+      box-shadow: none; 
       display: none; 
-      border: 1px solid var(--border); 
+      border: none; 
     }
     .card.active { 
       display: block; 
@@ -168,7 +168,7 @@
       font-size: 19px; 
       font-weight: 700; 
       color: var(--text-sub); 
-      cursor: pointer;
+      cursor: pointer; 
       transition: all 0.15s ease;
     }
 
@@ -224,7 +224,6 @@
 
     /* 중앙 정렬 스타일 */
     .center-text { text-align: center; }
-    .welcome-icon { font-size: 52px; margin-bottom: 16px; }
   </style>
 </head>
 <body>
@@ -318,7 +317,7 @@
         </div>
       </div>
 
-      <!-- Q5: '분사 인식 속도가 느림' 제외 -->
+      <!-- Q5 -->
       <div class="card" id="card-5">
         <span class="step-badge">질문 5 / 7</span>
         <h2>손소독기를 이용하면서 가장 불편했던 점은 무엇인가요?</h2>
@@ -366,7 +365,7 @@
         <div class="center-text">
           <h2>설문이 제출되었습니다!</h2>
           <p class="desc" style="margin-top: 12px;">
-            설문 제출 완료!.<br>
+            설문 제출 완료!<br>
             참여해 주셔서 감사합니다. 의견은 급식실 환경 개선에 참고할게요!
           </p>
         </div>
