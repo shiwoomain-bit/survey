@@ -3,71 +3,226 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>급식실 위생 시설 만족도 설문</title>
+  <title>급식실 앞 위생 시설 이용 만족도 조사</title>
   <style>
     :root {
       --primary: #10b981;
       --primary-hover: #059669;
       --primary-light: #ecfdf5;
-      --gray-bg: #f8fafc;
+      --gray-bg: #f3f4f6;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-sub: #64748b;
-      --border: #e2e8f0;
-      --radius: 18px;
+      --text-main: #111827;
+      --text-sub: #4b5563;
+      --border: #e5e7eb;
+      --radius: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif; }
-    body { background-color: var(--gray-bg); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body { 
+      background-color: var(--gray-bg); 
+      color: var(--text-main); 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+    }
 
     /* 상단 프로그레스 바 */
-    .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #e2e8f0; z-index: 100; }
-    .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .progress-container { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 6px; 
+      background: #e5e7eb; 
+      z-index: 100; 
+    }
+    .progress-bar { 
+      height: 100%; 
+      width: 0%; 
+      background: var(--primary); 
+      transition: width 0.3s ease; 
+    }
 
-    .container { max-width: 520px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; }
+    /* 모바일 가로폭을 시원하게 채우는 컨테이너 */
+    .container { 
+      width: 100%; 
+      max-width: 500px; 
+      margin: 0 auto; 
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      padding: 20px 16px; 
+    }
 
-    /* 카드 스타일 */
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 36px 26px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); display: none; animation: fadeIn 0.35s ease; border: 1px solid var(--border); }
-    .card.active { display: block; }
+    /* 카드 스타일 (여백 확대 및 그림자 완화) */
+    .card { 
+      background: var(--card-bg); 
+      border-radius: var(--radius); 
+      padding: 36px 22px; 
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); 
+      display: none; 
+      border: 1px solid var(--border); 
+    }
+    .card.active { 
+      display: block; 
+      animation: fadeIn 0.25s ease-out; 
+    }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .step-badge { display: inline-block; font-size: 13px; font-weight: 700; color: #059669; background: var(--primary-light); padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
-    h2 { font-size: 20px; font-weight: 700; line-height: 1.5; margin-bottom: 10px; word-break: keep-all; }
-    p.desc { font-size: 14.5px; color: var(--text-sub); margin-bottom: 24px; line-height: 1.6; word-break: keep-all; }
+    /* 타이포그래피 */
+    .step-badge { 
+      display: inline-block; 
+      font-size: 13px; 
+      font-weight: 700; 
+      color: var(--primary); 
+      background: var(--primary-light); 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      margin-bottom: 16px; 
+    }
 
-    /* 선택 옵션 버튼 */
-    .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .option-label { display: flex; align-items: center; padding: 15px 18px; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 15px; font-weight: 500; background: #fff; word-break: keep-all; }
-    .option-label:hover { border-color: #6ee7b7; background: #f0fdf4; }
-    .option-label input { margin-right: 12px; accent-color: var(--primary); width: 18px; height: 18px; flex-shrink: 0; }
-    .option-label.selected { border-color: var(--primary); background: var(--primary-light); color: #047857; font-weight: 600; }
+    h2 { 
+      font-size: 21px; 
+      font-weight: 700; 
+      line-height: 1.45; 
+      margin-bottom: 10px; 
+      word-break: keep-all; 
+      letter-spacing: -0.02em;
+    }
+
+    p.desc { 
+      font-size: 15px; 
+      color: var(--text-sub); 
+      margin-bottom: 26px; 
+      line-height: 1.55; 
+      word-break: keep-all; 
+    }
+
+    /* 선택 옵션 버튼 (터치 영역 확대) */
+    .options-group { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      margin-bottom: 30px; 
+    }
+
+    .option-label { 
+      display: flex; 
+      align-items: center; 
+      padding: 16px 18px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 14px; 
+      cursor: pointer; 
+      font-size: 16px; 
+      font-weight: 500; 
+      background: #fff; 
+      transition: all 0.15s ease;
+      line-height: 1.4;
+    }
+
+    .option-label:active {
+      transform: scale(0.99);
+    }
+
+    .option-label input { 
+      margin-right: 14px; 
+      accent-color: var(--primary); 
+      width: 20px; 
+      height: 20px; 
+      flex-shrink: 0;
+    }
+
+    .option-label.selected { 
+      border-color: var(--primary); 
+      background: var(--primary-light); 
+      color: var(--primary); 
+      font-weight: 600; 
+    }
 
     /* 5점 척도 버튼 */
-    .scale-group { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0 10px; }
-    .scale-btn { flex: 1; height: 52px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; font-size: 17px; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
-    .scale-btn:hover { border-color: #6ee7b7; }
-    .scale-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .scale-labels { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-sub); margin-bottom: 28px; font-weight: 500; }
+    .scale-group { 
+      display: flex; 
+      justify-content: space-between; 
+      gap: 8px; 
+      margin: 20px 0 10px; 
+    }
 
-    /* 주관식 인풋 */
-    textarea { width: 100%; height: 110px; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; font-size: 14.5px; resize: none; outline: none; margin-bottom: 24px; }
+    .scale-btn { 
+      flex: 1; 
+      height: 56px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 12px; 
+      background: #fff; 
+      font-size: 19px; 
+      font-weight: 700; 
+      color: var(--text-sub); 
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .scale-btn.selected { 
+      background: var(--primary); 
+      color: #fff; 
+      border-color: var(--primary); 
+    }
+
+    .scale-labels { 
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 13px; 
+      color: var(--text-sub); 
+      margin-bottom: 28px; 
+      font-weight: 500; 
+    }
+
+    /* 주관식 서술형 인풋 */
+    textarea { 
+      width: 100%; 
+      height: 130px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 14px; 
+      padding: 16px; 
+      font-size: 15px; 
+      resize: none; 
+      outline: none; 
+      margin-bottom: 24px; 
+      line-height: 1.5;
+    }
     textarea:focus { border-color: var(--primary); }
 
-    /* 하단 이동 버튼 */
+    /* 하단 이동 및 제출 버튼 */
     .btn-group { display: flex; gap: 10px; }
-    button.nav-btn { flex: 1; padding: 15px; border-radius: 12px; font-size: 15.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
-    .btn-prev { background: #f1f5f9; color: #475569; }
-    .btn-next, .btn-submit { background: var(--primary); color: #fff; }
-    .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
-    .btn-next:disabled, .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-    /* 시작 / 완료 화면 */
+    button.nav-btn { 
+      flex: 1; 
+      padding: 16px; 
+      border-radius: 14px; 
+      font-size: 16px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      border: none; 
+      transition: all 0.15s ease;
+    }
+
+    .btn-prev { background: #e5e7eb; color: #374151; }
+    .btn-next, .btn-submit { background: var(--primary); color: #fff; }
+    .btn-next:disabled, .btn-submit:disabled { background: #d1d5db; cursor: not-allowed; }
+
+    /* 중앙 정렬 스타일 */
     .center-text { text-align: center; }
-    .welcome-icon { font-size: 46px; margin-bottom: 14px; }
+    .welcome-icon { font-size: 52px; margin-bottom: 16px; }
   </style>
 </head>
 <body>
@@ -83,9 +238,11 @@
       <div class="card active" id="card-0">
         <div class="center-text">
           <div class="welcome-icon">🍱</div>
-          <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
-          <p class="desc" style="margin-top: 10px; margin-bottom: 26px;">
-            새로 설치된 문과 손소독기, 게이트 시설에 대한<br>학생 여러분의 솔직한 의견을 들려주세요. (약 1분 소요)
+          <h2>급식실 앞 위생 시설 이용<br>만족도 조사</h2>
+          <p class="desc" style="margin-top: 12px; margin-bottom: 28px;">
+            새로 설치된 문과 손소독기, 게이트 시설에 대한<br>
+            학생 여러분의 솔직한 의견을 들려주세요.<br>
+            <span style="font-size: 13px; color: #9ca3af;">(약 1분 소요)</span>
           </p>
           <button type="button" class="nav-btn btn-next" style="width: 100%;" onclick="nextCard()">설문 시작하기</button>
         </div>
@@ -93,7 +250,7 @@
 
       <!-- Q1 -->
       <div class="card" id="card-1">
-        <span class="step-badge">질문 1 / 7</span>
+        <span class="step-badge">질문 1 / 6</span>
         <h2>급식실 앞에 새로운 문과 손소독기가 설치된 사실을 알고 계셨나요?</h2>
         <p class="desc">가장 알맞은 항목을 골라주세요.</p>
         <div class="options-group">
@@ -109,7 +266,7 @@
 
       <!-- Q2 -->
       <div class="card" id="card-2">
-        <span class="step-badge">질문 2 / 7</span>
+        <span class="step-badge">질문 2 / 6</span>
         <h2>새 문을 통과할 때 손소독기를 사용하는 것이 편리한가요?</h2>
         <p class="desc">1점(매우 불편함)부터 5점(매우 편리함)까지 선택해 주세요.</p>
         <div class="scale-group">
@@ -132,8 +289,8 @@
 
       <!-- Q3 -->
       <div class="card" id="card-3">
-        <span class="step-badge">질문 3 / 7</span>
-        <h2>설치 이후 급식실 주변 위생 상태가 개선되었다고 느끼시나요?</h2>
+        <span class="step-badge">질문 3 / 6</span>
+        <h2>새 문과 손소독기 설치 이후 위생 상태가 개선되었다고 느끼시나요?</h2>
         <p class="desc">체감하시는 정도를 선택해 주세요.</p>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 매우 개선됨</label>
@@ -149,7 +306,7 @@
 
       <!-- Q4 -->
       <div class="card" id="card-4">
-        <span class="step-badge">질문 4 / 7</span>
+        <span class="step-badge">질문 4 / 6</span>
         <h2>설치 전과 비교했을 때 손 소독제를 더 자주 사용하시나요?</h2>
         <p class="desc">평소 이용 빈도 변화를 골라주세요.</p>
         <div class="options-group">
@@ -165,12 +322,13 @@
 
       <!-- Q5 -->
       <div class="card" id="card-5">
-        <span class="step-badge">질문 5 / 7</span>
+        <span class="step-badge">질문 5 / 6</span>
         <h2>손소독기를 이용하면서 가장 불편했던 점은 무엇인가요?</h2>
         <p class="desc">해당되는 사항을 모두 선택해 주세요.</p>
         <div class="options-group">
+          <label class="option-label"><input type="checkbox" name="q5" value="분사 인식 속도가 느림" onchange="checkQ5()"> 분사 인식 속도가 느림</label>
           <label class="option-label"><input type="checkbox" name="q5" value="출입 동선이 복잡해짐" onchange="checkQ5()"> 출입 동선이 복잡해짐</label>
-          <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 끈적임" onchange="checkQ5()"> 소독제 냄새나 끈적임이 심함</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 끈적임" onchange="checkQ5()"> 소독제 냄새가 강하거나 끈적임</label>
           <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 줄 서는 대기 시간이 길어짐</label>
           <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 불편한 점 없음</label>
         </div>
@@ -180,30 +338,12 @@
         </div>
       </div>
 
-      <!-- Q6: 손소독 게이트에 대한 생각 ('자동문' 제외) -->
+      <!-- Q6 -->
       <div class="card" id="card-6">
-        <span class="step-badge">질문 6 / 7</span>
-        <h2>급식실 입구의 '손소독 게이트(손소독 후 문 개방 시스템)'에 대해 전반적으로 어떻게 생각하시나요?</h2>
-        <p class="desc">가장 공감되는 의견을 골라주세요.</p>
-        <div class="options-group">
-          <label class="option-label"><input type="radio" name="q6" value="매우 긍정적 (위생 관리에 꼭 필요하다)" onchange="enableNext(6)"> 매우 긍정적 (위생 관리에 꼭 필요하다)</label>
-          <label class="option-label"><input type="radio" name="q6" value="대체로 긍정적 (효과가 있는 것 같다)" onchange="enableNext(6)"> 대체로 긍정적 (효과가 있는 것 같다)</label>
-          <label class="option-label"><input type="radio" name="q6" value="보통 / 잘 모르겠다" onchange="enableNext(6)"> 보통 / 잘 모르겠다</label>
-          <label class="option-label"><input type="radio" name="q6" value="다소 부정적 (불편함이 더 크다)" onchange="enableNext(6)"> 다소 부정적 (불편함이 더 크다)</label>
-          <label class="option-label"><input type="radio" name="q6" value="매우 부정적 (설치하지 않는 편이 낫다)" onchange="enableNext(6)"> 매우 부정적 (설치하지 않는 편이 낫다)</label>
-        </div>
-        <div class="btn-group">
-          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
-          <button type="button" class="nav-btn btn-next" id="btn-next-6" disabled onclick="nextCard()">다음</button>
-        </div>
-      </div>
-
-      <!-- Q7: 자유 건의사항 -->
-      <div class="card" id="card-7">
-        <span class="step-badge">질문 7 / 7</span>
-        <h2>급식실 위생 시설 및 손소독 게이트 개선을 위해 바라는 점이 있다면 적어주세요.</h2>
+        <span class="step-badge">질문 6 / 6</span>
+        <h2>급식실 위생 시설 개선을 위해 바라는 점이 있다면 적어주세요.</h2>
         <p class="desc">자유롭게 적어주시면 됩니다. (선택 사항)</p>
-        <textarea name="q7" placeholder="자유롭게 의견을 입력해 주세요. (없으면 바로 제출하셔도 됩니다.)"></textarea>
+        <textarea name="q6" placeholder="자유롭게 의견을 입력해 주세요. (내용이 없으면 바로 제출하셔도 됩니다.)"></textarea>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
           <button type="button" class="nav-btn btn-submit" id="submitBtn" onclick="submitSurvey()">제출하기</button>
@@ -215,7 +355,10 @@
         <div class="center-text">
           <div class="welcome-icon">🎉</div>
           <h2>설문이 제출되었습니다!</h2>
-          <p class="desc" style="margin-top: 10px;">소중한 의견을 들려주셔서 감사합니다.<br>더 나은 급식실 환경을 만드는 데 반영하겠습니다.</p>
+          <p class="desc" style="margin-top: 12px;">
+            소중한 의견을 들려주셔서 감사합니다.<br>
+            더 쾌적하고 편리한 급식실 환경을 만드는 데 반영하겠습니다.
+          </p>
         </div>
       </div>
 
@@ -223,10 +366,11 @@
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKjk7tVUP1EloiPssdDWJzCa2QkNwQ0ZjoDfAPLinFO4za4o522Iv8GoVIhbfxtH65rQ/exec";
+    // ★ 기존에 배포했던 Google Apps Script Web App URL을 그대로 넣어주세요!
+    const SCRIPT_URL = "여기에_웹앱_URL을_붙여넣으세요";
 
     let currentCard = 0;
-    const totalQuestions = 7;
+    const totalQuestions = 6;
 
     function updateProgress() {
       const percent = (currentCard / totalQuestions) * 100;
@@ -236,7 +380,10 @@
     function showCard(index) {
       document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
       const target = document.getElementById('card-' + index);
-      if (target) target.classList.add('active');
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       currentCard = index;
       updateProgress();
     }
@@ -297,8 +444,7 @@
         q3: formData.get('q3') || "",
         q4: formData.get('q4') || "",
         q5: q5List,
-        q6: formData.get('q6') || "",
-        q7: formData.get('q7') || ""
+        q6: formData.get('q6') || ""
       };
 
       try {
@@ -312,8 +458,9 @@
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         document.getElementById('card-complete').classList.add('active');
         document.getElementById('progressBar').style.width = '100%';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        alert("전송 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
         submitBtn.disabled = false;
         submitBtn.innerText = "제출하기";
       }
