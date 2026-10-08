@@ -2,258 +2,199 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>급식실 만족도 설문조사</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>급식실 위생 시설 만족도 설문</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      padding: 20px;
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --gray-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
     }
-    .survey-card {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      padding: 36px 28px;
-      border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 99px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-    .progress-inner {
-      height: 100%;
-      width: 16%;
-      background: #4f46e5;
-      transition: width 0.3s ease;
-    }
-    .step {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-    .step.active {
-      display: block;
-    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif; }
+    body { background-color: var(--gray-bg); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* 상단 프로그레스 바 */
+    .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #e2e8f0; z-index: 100; }
+    .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    .container { max-width: 540px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; }
+
+    /* 카드 스타일 */
+    .card { background: var(--card-bg); border-radius: var(--radius); padding: 32px 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); display: none; animation: fadeIn 0.35s ease; border: 1px solid var(--border); }
+    .card.active { display: block; }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .step-number {
-      font-size: 13px;
-      font-weight: 700;
-      color: #4f46e5;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    h3 {
-      font-size: 19px;
-      color: #1e293b;
-      margin: 0 0 20px 0;
-      line-height: 1.4;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .option-item {
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 15px;
-      color: #334155;
-    }
-    .option-item:hover {
-      border-color: #a5b4fc;
-      background: #f8faff;
-    }
-    .option-item input {
-      margin-right: 12px;
-      accent-color: #4f46e5;
-      width: 18px;
-      height: 18px;
-    }
-    .scale-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .scale-btn {
-      flex: 1;
-      text-align: center;
-      padding: 14px 0;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #334155;
-      transition: all 0.2s;
-    }
-    .scale-btn:hover {
-      border-color: #a5b4fc;
-      background: #f8faff;
-    }
-    .scale-btn input {
-      display: none;
-    }
-    .scale-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #64748b;
-      margin-bottom: 24px;
-    }
-    textarea {
-      width: 100%;
-      height: 110px;
-      padding: 14px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 15px;
-      resize: vertical;
-      box-sizing: border-box;
-      margin-bottom: 24px;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: #4f46e5;
-    }
-    .button-group {
-      display: flex;
-      gap: 10px;
-    }
-    .btn {
-      flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .btn:hover { opacity: 0.9; }
-    .btn-next { background: #4f46e5; color: white; }
+
+    .step-badge { display: inline-block; font-size: 13px; font-weight: 700; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; }
+    h2 { font-size: 20px; font-weight: 700; line-height: 1.45; margin-bottom: 8px; word-break: keep-all; }
+    p.desc { font-size: 14px; color: var(--text-sub); margin-bottom: 24px; line-height: 1.4; }
+
+    /* 선택 옵션 버튼 */
+    .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .option-label { display: flex; align-items: center; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 15px; font-weight: 500; background: #fff; }
+    .option-label:hover { border-color: #93c5fd; background: #fbfdff; }
+    .option-label input { margin-right: 12px; accent-color: var(--primary); width: 18px; height: 18px; }
+    .option-label.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
+
+    /* 5점 척도 버튼 */
+    .scale-group { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0 10px; }
+    .scale-btn { flex: 1; height: 52px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; font-size: 17px; font-weight: 700; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
+    .scale-btn:hover { border-color: #93c5fd; }
+    .scale-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .scale-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sub); margin-bottom: 28px; font-weight: 500; }
+
+    /* 주관식 인풋 */
+    textarea { width: 100%; height: 110px; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; font-size: 14px; resize: none; outline: none; margin-bottom: 24px; }
+    textarea:focus { border-color: var(--primary); }
+
+    /* 하단 이동 버튼 */
+    .btn-group { display: flex; gap: 10px; }
+    button.nav-btn { flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
     .btn-prev { background: #f1f5f9; color: #475569; }
-    .btn-submit { background: #10b981; color: white; }
+    .btn-next, .btn-submit { background: var(--primary); color: #fff; }
+    .btn-next:disabled, .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    /* 시작 / 완료 화면 */
+    .center-text { text-align: center; }
+    .welcome-icon { font-size: 44px; margin-bottom: 12px; }
   </style>
 </head>
 <body>
 
-  <div class="survey-card">
-    <div class="progress-bar">
-      <div class="progress-inner" id="progress"></div>
-    </div>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
 
-    <form id="surveyForm" action="https://script.google.com/macros/s/AKfycbyPovRfGxI22hN_OEq8acUZdTnzxoeKdnMtXH7L16NJJb04T_bN20w86nTdt-mt36Bg/exec" method="POST">
+  <div class="container">
+    <form id="surveyForm">
       
-      <!-- 질문 1 -->
-      <div class="step active">
-        <div class="step-number">질문 1 / 6</div>
-        <h3>급식실 앞에 새로운 문과 손소독기가 설치된 사실을 알고 있었나요?</h3>
-        <div class="options">
-          <label class="option-item"><input type="radio" name="q1" value="매우 잘 알고 있다" required> 매우 잘 알고 있다</label>
-          <label class="option-item"><input type="radio" name="q1" value="알고는 있었으나 자세히 보지 않았다"> 알고는 있었으나 자세히 보지 않았다</label>
-          <label class="option-item"><input type="radio" name="q1" value="설문조사를 통해 처음 알았다"> 설문조사를 통해 처음 알았다</label>
-        </div>
-        <div class="button-group">
-          <button type="button" class="btn btn-next" onclick="nextStep(1)">다음</button>
+      <!-- 안내 시작 화면 -->
+      <div class="card active" id="card-0">
+        <div class="center-text">
+          <div class="welcome-icon">🍱</div>
+          <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
+          <p class="desc" style="margin-top: 10px; margin-bottom: 24px;">새로 설치된 자동문과 손소독기에 대한 솔직한 의견을 들려주세요. (소요시간 약 1분)</p>
+          <button type="button" class="nav-btn btn-next" style="width: 100%;" onclick="nextCard()">설문 시작하기</button>
         </div>
       </div>
 
-      <!-- 질문 2 -->
-      <div class="step">
-        <div class="step-number">질문 2 / 6</div>
-        <h3>새로운 문을 통과할 때 손소독기를 사용하는 것이 편리하다고 생각하시나요?</h3>
+      <!-- Q1 -->
+      <div class="card" id="card-1">
+        <span class="step-badge">질문 1 / 6</span>
+        <h2>급식실 앞에 새로운 자동문과 손소독기가 설치된 사실을 알고 계셨나요?</h2>
+        <p class="desc">가장 알맞은 항목을 골라주세요.</p>
+        <div class="options-group">
+          <label class="option-label"><input type="radio" name="q1" value="매우 잘 알고 있다" onchange="enableNext(1)"> 매우 잘 알고 있다</label>
+          <label class="option-label"><input type="radio" name="q1" value="알고는 있었으나 자세히 보지 않았다" onchange="enableNext(1)"> 알고는 있었으나 자세히 보지 않았다</label>
+          <label class="option-label"><input type="radio" name="q1" value="설문조사를 통해 처음 알았다" onchange="enableNext(1)"> 설문조사를 통해 처음 알았다</label>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-next" id="btn-next-1" disabled onclick="nextCard()">다음</button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="card" id="card-2">
+        <span class="step-badge">질문 2 / 6</span>
+        <h2>새 문을 통과할 때 손소독기를 사용하는 것이 편리한가요?</h2>
+        <p class="desc">1점(매우 불편함)부터 5점(매우 편리함)까지 선택해 주세요.</p>
         <div class="scale-group">
-          <label class="scale-btn"><input type="radio" name="q2" value="1" required>1</label>
-          <label class="scale-btn"><input type="radio" name="q2" value="2">2</label>
-          <label class="scale-btn"><input type="radio" name="q2" value="3">3</label>
-          <label class="scale-btn"><input type="radio" name="q2" value="4">4</label>
-          <label class="scale-btn"><input type="radio" name="q2" value="5">5</label>
+          <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
+          <button type="button" class="scale-btn" onclick="selectScore(2)">2</button>
+          <button type="button" class="scale-btn" onclick="selectScore(3)">3</button>
+          <button type="button" class="scale-btn" onclick="selectScore(4)">4</button>
+          <button type="button" class="scale-btn" onclick="selectScore(5)">5</button>
         </div>
         <div class="scale-labels">
-          <span>전혀 아님 (1)</span>
-          <span>매우 그러함 (5)</span>
+          <span>전혀 아님 (1점)</span>
+          <span>매우 그러함 (5점)</span>
         </div>
-        <div class="button-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(2)">이전</button>
-          <button type="button" class="btn btn-next" onclick="nextStep(2)">다음</button>
-        </div>
-      </div>
-
-      <!-- 질문 3 -->
-      <div class="step">
-        <div class="step-number">질문 3 / 6</div>
-        <h3>새로운 문과 손소독기 설치 이후 위생 상태가 개선되었다고 느끼시나요?</h3>
-        <div class="options">
-          <label class="option-item"><input type="radio" name="q3" value="매우 개선됨" required> 매우 개선됨</label>
-          <label class="option-item"><input type="radio" name="q3" value="조금 개선됨"> 조금 개선됨</label>
-          <label class="option-item"><input type="radio" name="q3" value="비슷함"> 비슷함</label>
-          <label class="option-item"><input type="radio" name="q3" value="전혀 개선되지 않음"> 전혀 개선되지 않음</label>
-        </div>
-        <div class="button-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(3)">이전</button>
-          <button type="button" class="btn btn-next" onclick="nextStep(3)">다음</button>
+        <input type="hidden" name="q2" id="q2-input">
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-next" id="btn-next-2" disabled onclick="nextCard()">다음</button>
         </div>
       </div>
 
-      <!-- 질문 4 -->
-      <div class="step">
-        <div class="step-number">질문 4 / 6</div>
-        <h3>손 소독제를 평소보다 많이 사용하셨나요?</h3>
-        <div class="options">
-          <label class="option-item"><input type="radio" name="q4" value="예 (많이 사용함)" required> 예 (많이 사용함)</label>
-          <label class="option-item"><input type="radio" name="q4" value="아니오 (비슷하거나 덜 씀)"> 아니오 (비슷하거나 덜 씀)</label>
+      <!-- Q3 -->
+      <div class="card" id="card-3">
+        <span class="step-badge">질문 3 / 6</span>
+        <h2>설치 이후 급식실 주변 위생 상태가 개선되었다고 느끼시나요?</h2>
+        <p class="desc">체감하시는 정도를 선택해 주세요.</p>
+        <div class="options-group">
+          <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 매우 개선됨</label>
+          <label class="option-label"><input type="radio" name="q3" value="조금 개선됨" onchange="enableNext(3)"> 조금 개선됨</label>
+          <label class="option-label"><input type="radio" name="q3" value="비슷함" onchange="enableNext(3)"> 비슷함</label>
+          <label class="option-label"><input type="radio" name="q3" value="전혀 개선되지 않음" onchange="enableNext(3)"> 전혀 개선되지 않음</label>
         </div>
-        <div class="button-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(4)">이전</button>
-          <button type="button" class="btn btn-next" onclick="nextStep(4)">다음</button>
-        </div>
-      </div>
-
-      <!-- 질문 5 -->
-      <div class="step">
-        <div class="step-number">질문 5 / 6</div>
-        <h3>손소독기를 이용하는 과정에서 가장 불편했던 점은 무엇인가요?</h3>
-        <div class="options">
-          <label class="option-item"><input type="radio" name="q5" value="분사 인식 속도가 느림" required> 분사 인식 속도가 느림</label>
-          <label class="option-item"><input type="radio" name="q5" value="출입 동선이 복잡해짐"> 출입 동선이 복잡해짐</label>
-          <label class="option-item"><input type="radio" name="q5" value="소독제 냄새가 강함"> 소독제 냄새가 강함</label>
-          <label class="option-item"><input type="radio" name="q5" value="대기 시간이 길어짐"> 대기 시간이 길어짐</label>
-          <label class="option-item"><input type="radio" name="q5" value="불편한 점 없음"> 불편한 점 없음</label>
-        </div>
-        <div class="button-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(5)">이전</button>
-          <button type="button" class="btn btn-next" onclick="nextStep(5)">다음</button>
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-next" id="btn-next-3" disabled onclick="nextCard()">다음</button>
         </div>
       </div>
 
-      <!-- 질문 6 -->
-      <div class="step">
-        <div class="step-number">질문 6 / 6</div>
-        <h3>급식실 위생 시설 개선을 위해 추가로 바라는 점이 있다면 자유롭게 적어주세요.</h3>
-        <textarea name="q6" placeholder="자유롭게 의견을 작성해 주세요 (선택 사항)"></textarea>
-        <div class="button-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(6)">이전</button>
-          <button type="submit" class="btn btn-submit">설문 제출 완료</button>
+      <!-- Q4 -->
+      <div class="card" id="card-4">
+        <span class="step-badge">질문 4 / 6</span>
+        <h2>설치 전과 비교했을 때 손 소독제를 더 자주 사용하시나요?</h2>
+        <p class="desc">평소 이용 빈도 변화를 골라주세요.</p>
+        <div class="options-group">
+          <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 훨씬 많이 사용한다</label>
+          <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 이전과 비슷하게 사용한다</label>
+          <label class="option-label"><input type="radio" name="q4" value="거의 사용하지 않는다" onchange="enableNext(4)"> 거의 사용하지 않는다</label>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-next" id="btn-next-4" disabled onclick="nextCard()">다음</button>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="card" id="card-5">
+        <span class="step-badge">질문 5 / 6</span>
+        <h2>손소독기를 이용하면서 가장 불편했던 점은 무엇인가요?</h2>
+        <p class="desc">해당되는 사항을 모두 선택해 주세요.</p>
+        <div class="options-group">
+          <label class="option-label"><input type="checkbox" name="q5" value="분사 인식 속도가 느림" onchange="checkQ5()"> 분사 인식 속도가 느림</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="출입 동선이 복잡해짐" onchange="checkQ5()"> 출입 동선이 복잡해짐</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 끈적임" onchange="checkQ5()"> 소독제 냄새나 끈적임이 심함</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 줄 서는 대기 시간이 길어짐</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 불편한 점 없음</label>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-next" id="btn-next-5" disabled onclick="nextCard()">다음</button>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="card" id="card-6">
+        <span class="step-badge">질문 6 / 6</span>
+        <h2>급식실 위생 시설 개선을 위해 바라는 점이 있다면 적어주세요.</h2>
+        <p class="desc">자유롭게 적어주시면 됩니다. (선택 사항)</p>
+        <textarea name="q6" placeholder="자유롭게 의견을 입력해 주세요. (없으면 바로 제출하셔도 됩니다.)"></textarea>
+        <div class="btn-group">
+          <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
+          <button type="button" class="nav-btn btn-submit" id="submitBtn" onclick="submitSurvey()">제출하기</button>
+        </div>
+      </div>
+
+      <!-- 제출 완료 화면 -->
+      <div class="card" id="card-complete">
+        <div class="center-text">
+          <div class="welcome-icon">🎉</div>
+          <h2>설문이 제출되었습니다!</h2>
+          <p class="desc" style="margin-top: 10px;">소중한 의견을 들려주셔서 감사합니다.<br>더 나은 급식실 환경을 만드는 데 반영하겠습니다.</p>
         </div>
       </div>
 
@@ -261,48 +202,101 @@
   </div>
 
   <script>
-    const steps = document.querySelectorAll('.step');
-    const progress = document.getElementById('progress');
-    let currentStep = 0;
+    // 복사해주신 Web App URL이 반영되었습니다.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKjk7tVUP1EloiPssdDWJzCa2QkNwQ0ZjoDfAPLinFO4za4o522Iv8GoVIhbfxtH65rQ/exec";
 
-    // 점수 버튼(1~5) 클릭 시 색상 표시
-    document.querySelectorAll('.scale-btn').forEach(label => {
-      label.addEventListener('click', () => {
-        document.querySelectorAll('.scale-btn').forEach(el => {
-          el.style.borderColor = '#e2e8f0';
-          el.style.background = 'white';
-        });
-        label.style.borderColor = '#4f46e5';
-        label.style.background = '#eef2ff';
-      });
-    });
+    let currentCard = 0;
+    const totalQuestions = 6;
 
-    function showStep(index) {
-      steps.forEach((step, i) => {
-        step.classList.toggle('active', i === index);
-      });
-      progress.style.width = ((index + 1) / steps.length) * 100 + '%';
+    function updateProgress() {
+      const percent = (currentCard / totalQuestions) * 100;
+      document.getElementById('progressBar').style.width = percent + '%';
     }
 
-    function nextStep(stepIndex) {
-      const currentInputs = steps[stepIndex - 1].querySelectorAll('input[required]');
-      let checked = false;
-      currentInputs.forEach(input => {
-        if (input.checked) checked = true;
-      });
+    function showCard(index) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+      const target = document.getElementById('card-' + index);
+      if (target) target.classList.add('active');
+      currentCard = index;
+      updateProgress();
+    }
 
-      if (currentInputs.length > 0 && !checked) {
-        alert('응답을 선택해 주세요!');
-        return;
+    function nextCard() {
+      if (currentCard < totalQuestions) showCard(currentCard + 1);
+    }
+
+    function prevCard() {
+      if (currentCard > 0) showCard(currentCard - 1);
+    }
+
+    function enableNext(cardIndex) {
+      document.getElementById('btn-next-' + cardIndex).disabled = false;
+      const inputs = document.querySelectorAll('#card-' + cardIndex + ' input[type="radio"]');
+      inputs.forEach(input => {
+        input.parentElement.classList.toggle('selected', input.checked);
+      });
+    }
+
+    function selectScore(score) {
+      document.getElementById('q2-input').value = score;
+      document.querySelectorAll('.scale-btn').forEach((btn, idx) => {
+        btn.classList.toggle('selected', idx + 1 === score);
+      });
+      document.getElementById('btn-next-2').disabled = false;
+    }
+
+    function checkQ5(isNone = false) {
+      const checkboxes = document.querySelectorAll('input[name="q5"]');
+      const noneBox = Array.from(checkboxes).find(cb => cb.value === "불편한 점 없음");
+
+      if (isNone && noneBox.checked) {
+        checkboxes.forEach(cb => { if (cb !== noneBox) cb.checked = false; });
+      } else if (!isNone && noneBox.checked) {
+        noneBox.checked = false;
       }
 
-      currentStep++;
-      showStep(currentStep);
+      checkboxes.forEach(cb => cb.parentElement.classList.toggle('selected', cb.checked));
+      const hasChecked = Array.from(checkboxes).some(cb => cb.checked);
+      document.getElementById('btn-next-5').disabled = !hasChecked;
     }
 
-    function prevStep(stepIndex) {
-      currentStep--;
-      showStep(currentStep);
+    async function submitSurvey() {
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "제출 중...";
+
+      const form = document.getElementById('surveyForm');
+      const formData = new FormData(form);
+
+      const q5List = [];
+      document.querySelectorAll('input[name="q5"]:checked').forEach(cb => q5List.push(cb.value));
+
+      const payload = {
+        q1: formData.get('q1') || "",
+        q2: formData.get('q2') || "",
+        q3: formData.get('q3') || "",
+        q4: formData.get('q4') || "",
+        q5: q5List,
+        q6: formData.get('q6') || ""
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        // 완료 화면으로 전환
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.getElementById('card-complete').classList.add('active');
+        document.getElementById('progressBar').style.width = '100%';
+      } catch (err) {
+        alert("전송 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "제출하기";
+      }
     }
   </script>
 </body>
