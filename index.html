@@ -50,21 +50,32 @@
       transition: width 0.25s ease; 
     }
 
-    /* 상단 네비게이션 헤더 (PC에서 휑한 느낌을 완벽하게 없애줌) */
+    /* 상단 네비게이션 헤더 */
     .site-header {
       width: 100%;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .school-logo {
+      height: 28px;
+      object-fit: contain;
     }
     .site-header .logo-title {
       font-size: 15px;
       font-weight: 700;
       color: #0f172a;
       letter-spacing: -0.02em;
+      border-left: 1px solid var(--border);
+      padding-left: 12px;
     }
     .site-header .badge-tag {
       font-size: 12px;
@@ -75,7 +86,7 @@
       font-weight: 600;
     }
 
-    /* 기본 모바일 레이아웃 */
+    /* 모바일 기본 컨테이너 */
     .container { 
       width: 100%; 
       max-width: 500px; 
@@ -123,7 +134,7 @@
       word-break: keep-all; 
     }
 
-    /* 시작 화면 전용 스타일 */
+    /* 시작 화면 */
     .start-box {
       text-align: left;
     }
@@ -228,7 +239,7 @@
       font-weight: 500; 
     }
 
-    /* 주관식 텍스트 영역 */
+    /* 서술형 입력창 */
     textarea { 
       width: 100%; 
       height: 130px; 
@@ -269,18 +280,18 @@
     .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
     .btn-next:disabled, .btn-submit:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
 
-    /* --------------------------------------------------------
-       [PC 데스크톱 전용 반응형: 화면 전체를 시원하고 알차게 씀]
-       -------------------------------------------------------- */
+    /* PC 데스크톱 반응형 스타일 */
     @media (min-width: 768px) {
       .site-header {
-        padding: 18px 48px;
+        padding: 16px 48px;
+      }
+      .school-logo {
+        height: 34px;
       }
       .site-header .logo-title {
         font-size: 16px;
       }
 
-      /* PC에서는 가운데 좁은 상자가 아니라 위에서부터 시원하게 840px 폭으로 배치 */
       .container { 
         max-width: 840px; 
         justify-content: flex-start;
@@ -292,7 +303,6 @@
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       }
 
-      /* 시작 화면 PC 레이아웃 */
       .start-box h2 {
         font-size: 28px;
         margin-bottom: 16px;
@@ -312,7 +322,6 @@
         font-size: 16px;
       }
 
-      /* 질문 제목 및 설명 */
       h2 { 
         font-size: 24px; 
         margin-bottom: 28px; 
@@ -323,7 +332,6 @@
         margin-bottom: 28px;
       }
 
-      /* 객관식 항목들을 PC에서는 넓게 2열 그리드로 자동 정렬 (공간 낭비 제거) */
       .options-group {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -331,26 +339,22 @@
         margin-bottom: 40px;
       }
 
-      /* 선택지 버튼 내부 패딩 확장 */
       .option-label { 
         padding: 18px 20px; 
         font-size: 16px;
       }
 
-      /* 5점 척도 버튼 */
       .scale-btn { 
         height: 60px; 
         font-size: 20px;
       }
 
-      /* 주관식 창 */
       textarea {
         height: 150px;
         font-size: 15px;
         margin-bottom: 40px;
       }
 
-      /* PC 하단 버튼은 오른쪽 정렬로 안정감 있게 구성 */
       .btn-group {
         justify-content: flex-end;
       }
@@ -370,9 +374,12 @@
     <div class="progress-bar" id="progressBar"></div>
   </div>
 
-  <!-- 상단 헤더 바 (PC에서 허전함을 없애는 핵심 요소) -->
+  <!-- 상단 헤더: 학교 로고 + 제목 -->
   <header class="site-header">
-    <div class="logo-title">급식실 시설 개선 만족도 조사</div>
+    <div class="header-left">
+      <img src="logo.png" alt="이우학교 로고" class="school-logo">
+      <div class="logo-title">급식실 시설 개선 만족도 조사</div>
+    </div>
     <div class="badge-tag">설문조사</div>
   </header>
 
