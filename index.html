@@ -215,6 +215,22 @@
       font-weight: 600; 
     }
 
+    /* 기타 텍스트 인풋 필드 */
+    .etc-input {
+      width: 100%;
+      margin-top: -4px;
+      margin-bottom: 2px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      outline: none;
+      display: none;
+    }
+    .etc-input:focus {
+      border-color: var(--primary);
+    }
+
     /* 5점 척도 버튼 */
     .scale-group { 
       display: flex; 
@@ -322,6 +338,10 @@
         margin-bottom: 36px;
       }
 
+      .options-group.single-column-desktop {
+        grid-template-columns: 1fr;
+      }
+
       .option-label { padding: 18px 20px; font-size: 16px; }
       .scale-btn { height: 58px; font-size: 20px; }
 
@@ -378,7 +398,7 @@
 
       <!-- Q1 -->
       <div class="card" id="card-1">
-        <h2>급식실 앞에 새로운 문과 손소독기가 설치된 걸 알고 계셨나요?</h2>
+        <h2>1. 급식실 앞에 새로운 문과 손소독기가 설치된 걸 알고 계셨나요?</h2>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q1" value="매우 잘 알고 있다" onchange="enableNext(1)"> 잘 알고 있다</label>
           <label class="option-label"><input type="radio" name="q1" value="알고는 있었으나 자세히 보지 않았다" onchange="enableNext(1)"> 보긴 했는데 자세히는 몰랐다</label>
@@ -392,7 +412,7 @@
 
       <!-- Q2 -->
       <div class="card" id="card-2">
-        <h2>새 문을 지나갈 때 손소독기를 사용하는 게 편한가요?</h2>
+        <h2>2. 새 문을 지나갈 때 손소독기를 사용하는 게 편한가요?</h2>
         <p class="desc">1점(매우 불편함)부터 5점(매우 편리함) 사이에서 골라주세요.</p>
         <div class="scale-group">
           <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
@@ -414,7 +434,7 @@
 
       <!-- Q3 -->
       <div class="card" id="card-3">
-        <h2>새 문과 손소독기가 생기고 나서 위생 상태가 더 나아진 것 같나요?</h2>
+        <h2>3. 새 문과 손소독기가 생기고 나서 위생 상태가 더 나아진 것 같나요?</h2>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q3" value="매우 개선됨" onchange="enableNext(3)"> 훨씬 깨끗해진 것 같다</label>
           <label class="option-label"><input type="radio" name="q3" value="조금 개선됨" onchange="enableNext(3)"> 조금은 나아진 것 같다</label>
@@ -429,7 +449,7 @@
 
       <!-- Q4 -->
       <div class="card" id="card-4">
-        <h2>설치 전이랑 비교했을 때 손 소독제를 더 자주 쓰게 되나요?</h2>
+        <h2>4. 설치 전이랑 비교했을 때 손 소독제를 더 자주 쓰게 되나요?</h2>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 전보다 훨씬 자주 쓴다</label>
           <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 전이랑 비슷하게 쓴다</label>
@@ -441,15 +461,17 @@
         </div>
       </div>
 
-      <!-- Q5 -->
+      <!-- Q5 (뒤에서 3번째) -->
       <div class="card" id="card-5">
-        <h2>손소독기를 쓰면서 가장 불편했던 점은 무엇이었나요?</h2>
+        <h2>5. 손소독기를 쓰면서 가장 불편했던 점은 무엇이었나요?</h2>
         <p class="desc">(중복 선택 가능)</p>
-        <div class="options-group">
+        <div class="options-group single-column-desktop">
           <label class="option-label"><input type="checkbox" name="q5" value="출입 동선이 복잡해짐" onchange="checkQ5()"> 지나다니는 동선이 복잡해짐</label>
           <label class="option-label"><input type="checkbox" name="q5" value="소독제 냄새나 손에 남는 끈적임" onchange="checkQ5()"> 소독제 냄새나 손에 남는 끈적임</label>
           <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 입구에서 줄 서는 시간이 길어짐</label>
           <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 특별히 불편한 점 없음</label>
+          <label class="option-label"><input type="checkbox" name="q5" value="기타" id="q5-etc-check" onchange="checkQ5()"> 기타 (직접 입력)</label>
+          <input type="text" id="q5-etc-text" class="etc-input" placeholder="불편했던 점을 간단히 적어주세요">
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -457,14 +479,16 @@
         </div>
       </div>
 
-      <!-- Q6 -->
+      <!-- Q6 (뒤에서 2번째) -->
       <div class="card" id="card-6">
-        <h2>'손소독을 유도하는 게이트 방식'에 대해 어떻게 생각하나요?</h2>
-        <div class="options-group">
-          <label class="option-label"><input type="radio" name="q6" value="위생 관리를 위해 매우 효과적이다" onchange="enableNext(6)"> 위생 관리에 확실히 도움 된다</label>
-          <label class="option-label"><input type="radio" name="q6" value="효과는 있으나 동선이 다소 불편하다" onchange="enableNext(6)"> 도움은 되지만 이동할 때 좀 불편하다</label>
-          <label class="option-label"><input type="radio" name="q6" value="강제적이라 불편함이 더 크다" onchange="enableNext(6)"> 억지로 해야 해서 불편한 마음이 더 크다</label>
-          <label class="option-label"><input type="radio" name="q6" value="별다른 생각이 없다 / 상관없다" onchange="enableNext(6)"> 별생각 없다 / 상관없다</label>
+        <h2>6. '손소독을 유도하는 게이트 방식'에 대해 어떻게 생각하나요?</h2>
+        <div class="options-group single-column-desktop">
+          <label class="option-label"><input type="radio" name="q6" value="위생 관리를 위해 매우 효과적이다" onchange="enableNextQ6(this)"> 위생 관리에 확실히 도움 된다</label>
+          <label class="option-label"><input type="radio" name="q6" value="효과는 있으나 동선이 다소 불편하다" onchange="enableNextQ6(this)"> 도움은 되지만 이동할 때 좀 불편하다</label>
+          <label class="option-label"><input type="radio" name="q6" value="강제적이라 불편함이 더 크다" onchange="enableNextQ6(this)"> 억지로 해야 해서 불편한 마음이 더 크다</label>
+          <label class="option-label"><input type="radio" name="q6" value="별다른 생각이 없다 / 상관없다" onchange="enableNextQ6(this)"> 별생각 없다 / 상관없다</label>
+          <label class="option-label"><input type="radio" name="q6" value="기타" onchange="enableNextQ6(this)"> 기타 (직접 입력)</label>
+          <input type="text" id="q6-etc-text" class="etc-input" placeholder="의견을 자유롭게 적어주세요">
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -474,7 +498,7 @@
 
       <!-- Q7 -->
       <div class="card" id="card-7">
-        <h2>마지막으로 급식실 위생이나 입구 시설에 바라는 점이 있다면 적어주세요!</h2>
+        <h2>7. 마지막으로 급식실 위생이나 입구 시설에 바라는 점이 있다면 적어주세요!</h2>
         <textarea name="q7" placeholder="솔직한 생각을 편하게 적어주세요. (딱히 없다면 바로 제출하셔도 괜찮아요!)"></textarea>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" id="prevBtn" onclick="prevCard()">이전</button>
@@ -534,6 +558,23 @@
       });
     }
 
+    function enableNextQ6(selectedRadio) {
+      document.getElementById('btn-next-6').disabled = false;
+      const inputs = document.querySelectorAll('#card-6 input[type="radio"]');
+      inputs.forEach(input => {
+        input.parentElement.classList.toggle('selected', input.checked);
+      });
+
+      const etcInput = document.getElementById('q6-etc-text');
+      if (selectedRadio.value === '기타') {
+        etcInput.style.display = 'block';
+        etcInput.focus();
+      } else {
+        etcInput.style.display = 'none';
+        etcInput.value = '';
+      }
+    }
+
     function selectScore(score) {
       document.getElementById('q2-input').value = score;
       document.querySelectorAll('.scale-btn').forEach((btn, idx) => {
@@ -545,11 +586,22 @@
     function checkQ5(isNone = false) {
       const checkboxes = document.querySelectorAll('input[name="q5"]');
       const noneBox = Array.from(checkboxes).find(cb => cb.value === "불편한 점 없음");
+      const etcBox = document.getElementById('q5-etc-check');
+      const etcInput = document.getElementById('q5-etc-text');
 
       if (isNone && noneBox.checked) {
         checkboxes.forEach(cb => { if (cb !== noneBox) cb.checked = false; });
+        etcInput.style.display = 'none';
+        etcInput.value = '';
       } else if (!isNone && noneBox.checked) {
         noneBox.checked = false;
+      }
+
+      if (etcBox.checked) {
+        etcInput.style.display = 'block';
+      } else {
+        etcInput.style.display = 'none';
+        etcInput.value = '';
       }
 
       checkboxes.forEach(cb => cb.parentElement.classList.toggle('selected', cb.checked));
@@ -568,8 +620,23 @@
       const form = document.getElementById('surveyForm');
       const formData = new FormData(form);
 
+      // Q5 기타 입력값 처리
       const q5List = [];
-      document.querySelectorAll('input[name="q5"]:checked').forEach(cb => q5List.push(cb.value));
+      const q5EtcText = document.getElementById('q5-etc-text').value.trim();
+      document.querySelectorAll('input[name="q5"]:checked').forEach(cb => {
+        if (cb.value === "기타") {
+          q5List.push(q5EtcText ? `기타(${q5EtcText})` : "기타");
+        } else {
+          q5List.push(cb.value);
+        }
+      });
+
+      // Q6 기타 입력값 처리
+      let q6Val = formData.get('q6') || "";
+      if (q6Val === "기타") {
+        const q6EtcText = document.getElementById('q6-etc-text').value.trim();
+        q6Val = q6EtcText ? `기타(${q6EtcText})` : "기타";
+      }
 
       const payload = {
         q1: formData.get('q1') || "",
@@ -577,7 +644,7 @@
         q3: formData.get('q3') || "",
         q4: formData.get('q4') || "",
         q5: q5List,
-        q6: formData.get('q6') || "",
+        q6: q6Val,
         q7: formData.get('q7') || ""
       };
 
