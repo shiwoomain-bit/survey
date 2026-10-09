@@ -14,7 +14,7 @@
       --text-main: #0f172a;
       --text-sub: #475569;
       --border: #e2e8f0;
-      --radius: 4px; /* 기존 8px에서 4px로 살짝 줄여 깔끔하게 조정 */
+      --radius: 4px;
     }
 
     * { 
@@ -382,8 +382,9 @@
           <div class="info-panel">
             <div class="info-intro">안녕하세요, 학생 여러분!</div>
             <div class="info-body">
-              최근 급식실 입구에 새로 설치된 <strong>손소독 게이트와 손소독제</strong>에 대해 소중한 의견을 들려주세요!<br><br>
-              실제 이용하면서 느낀 편리함이나 불편했던 점을 남겨주시면, 더 쾌적하고 편리한 급식 환경을 만드는 데 적극 반영할게요!
+              최근 급식실 입구에 새로 설치된 <strong>손소독 게이트와 손소독제</strong>에 대해 소중한 의견을 들려주세요.<br><br>
+              실제 이용하면서 느낀 편리한 점이나 아쉬운 점을 남겨주시면,<br>
+              더 좋은 급식실 환경을 만드는 데 적극 반영할게요!
             </div>
             <div class="info-badge-wrap">
               <span class="time-badge">예상 소요 시간</span>
@@ -471,7 +472,7 @@
           <label class="option-label"><input type="checkbox" name="q5" value="줄 서는 대기 시간이 길어짐" onchange="checkQ5()"> 입구에서 줄 서는 시간이 길어짐</label>
           <label class="option-label"><input type="checkbox" name="q5" value="불편한 점 없음" onchange="checkQ5(true)"> 특별히 불편한 점 없음</label>
           <label class="option-label"><input type="checkbox" name="q5" value="기타" id="q5-etc-check" onchange="checkQ5()"> 기타 (직접 입력)</label>
-          <input type="text" id="q5-etc-text" class="etc-input" placeholder="불편했던 점을 간단히 적어주세요">
+          <input type="text" id="q5-etc-text" class="etc-input" placeholder="불편했던 점을 간단히 적어주세요" oninput="checkQ5()">
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -488,7 +489,7 @@
           <label class="option-label"><input type="radio" name="q6" value="강제적이라 불편함이 더 크다" onchange="enableNextQ6(this)"> 억지로 해야 해서 불편한 마음이 더 크다</label>
           <label class="option-label"><input type="radio" name="q6" value="별다른 생각이 없다 / 상관없다" onchange="enableNextQ6(this)"> 별생각 없다 / 상관없다</label>
           <label class="option-label"><input type="radio" name="q6" value="기타" onchange="enableNextQ6(this)"> 기타 (직접 입력)</label>
-          <input type="text" id="q6-etc-text" class="etc-input" placeholder="의견을 자유롭게 적어주세요">
+          <input type="text" id="q6-etc-text" class="etc-input" placeholder="의견을 자유롭게 적어주세요" oninput="validateQ6()">
         </div>
         <div class="btn-group">
           <button type="button" class="nav-btn btn-prev" onclick="prevCard()">이전</button>
@@ -559,7 +560,6 @@
     }
 
     function enableNextQ6(selectedRadio) {
-      document.getElementById('btn-next-6').disabled = false;
       const inputs = document.querySelectorAll('#card-6 input[type="radio"]');
       inputs.forEach(input => {
         input.parentElement.classList.toggle('selected', input.checked);
@@ -569,9 +569,26 @@
       if (selectedRadio.value === '기타') {
         etcInput.style.display = 'block';
         etcInput.focus();
+        validateQ6();
       } else {
         etcInput.style.display = 'none';
         etcInput.value = '';
+        document.getElementById('btn-next-6').disabled = false;
+      }
+    }
+
+    function validateQ6() {
+      const selectedRadio = document.querySelector('input[name="q6"]:checked');
+      if (!selectedRadio) {
+        document.getElementById('btn-next-6').disabled = true;
+        return;
+      }
+
+      if (selectedRadio.value === '기타') {
+        const text = document.getElementById('q6-etc-text').value.trim();
+        document.getElementById('btn-next-6').disabled = (text.length === 0);
+      } else {
+        document.getElementById('btn-next-6').disabled = false;
       }
     }
 
@@ -605,8 +622,14 @@
       }
 
       checkboxes.forEach(cb => cb.parentElement.classList.toggle('selected', cb.checked));
-      const hasChecked = Array.from(checkboxes).some(cb => cb.checked);
-      document.getElementById('btn-next-5').disabled = !hasChecked;
+
+      // 기타 체크박스가 켜져 있다면 텍스트가 입력되어야 함
+      const otherChecked = Array.from(checkboxes).filter(cb => cb.checked && cb !== etcBox).length > 0;
+      const etcValid = etcBox.checked ? (etcInput.value.trim().length > 0) : false;
+
+      // 일반 보기가 1개 이상 선택되어 있거나, 기타가 체크되어 텍스트가 채워져 있을 때만 다음 가능
+      const canProceed = otherChecked || etcValid;
+      document.getElementById('btn-next-5').disabled = !canProceed;
     }
 
     async function submitSurvey() {
