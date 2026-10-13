@@ -312,6 +312,16 @@
     .btn-next:hover, .btn-submit:hover { background: var(--primary-hover); }
     .btn-next:disabled, .btn-submit:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
 
+    /* 설문 종료 버튼 스타일 */
+    .btn-closed {
+      background-color: #94a3b8 !important;
+      color: #ffffff !important;
+      cursor: not-allowed !important;
+    }
+    .btn-closed:hover {
+      background-color: #94a3b8 !important;
+    }
+
     /* 데스크톱 반응형 */
     @media (min-width: 768px) {
       .site-header { padding: 16px 48px; }
@@ -380,7 +390,7 @@
         <div class="start-box">
           <h2>급식실 앞 위생 시설 이용 만족도 조사</h2>
           <div class="info-panel">
-            <div class="info-intro">안녕하세요, 여러분!</div>
+            <div class="info-intro">안녕하세요, 학생 여러분!</div>
             <div class="info-body">
               최근 급식실 입구에 새로 설치된 <strong>손소독 게이트와 손소독제</strong>에 대해 소중한 의견을 들려주세요.<br><br>
               실제 이용하면서 느낀 편리한 점이나 아쉬운 점을 남겨주시면,<br>
@@ -392,7 +402,7 @@
             </div>
           </div>
           <div class="start-btn-wrap">
-            <button type="button" class="nav-btn btn-next" onclick="nextCard()">설문 시작하기</button>
+            <button type="button" class="nav-btn btn-next" id="startBtn" onclick="nextCard()">설문 시작하기</button>
           </div>
         </div>
       </div>
@@ -437,9 +447,9 @@
       <div class="card" id="card-3">
         <h2>3. 새 문과 손소독기가 생기고 나서 위생 상태가 더 나아진 것 같나요?</h2>
         <div class="options-group">
-          <label class="option-label"><input type="radio" name="q3" value="매우 나아짐" onchange="enableNext(3)"> 훨씬 깨끗해진 것 같다</label>
+          <label class="option-label"><input type="radio" name="q3" value="훨씬 나아짐" onchange="enableNext(3)"> 훨씬 깨끗해진 것 같다</label>
           <label class="option-label"><input type="radio" name="q3" value="조금 나아짐" onchange="enableNext(3)"> 조금은 나아진 것 같다</label>
-          <label class="option-label"><input type="radio" name="q3" value="비슷함" onchange="enableNext(3)"> 이전과 별 차이 없다</label>
+          <label class="option-label"><input type="radio" name="q3" value="차이 없음" onchange="enableNext(3)"> 이전과 별 차이 없다</label>
           <label class="option-label"><input type="radio" name="q3" value="전혀 나아지지 않음" onchange="enableNext(3)"> 전혀 그렇지 않다</label>
         </div>
         <div class="btn-group">
@@ -524,6 +534,24 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKjk7tVUP1EloiPssdDWJzCa2QkNwQ0ZjoDfAPLinFO4za4o522Iv8GoVIhbfxtH65rQ/exec";
 
+    /* ====================================================
+       설문 마감 설정 (마감 시 true 로 변경)
+       ==================================================== */
+    const IS_SURVEY_CLOSED = true; 
+
+    function checkSurveyStatus() {
+      if (IS_SURVEY_CLOSED) {
+        const startBtn = document.getElementById('startBtn');
+        if (startBtn) {
+          startBtn.disabled = true;
+          startBtn.innerText = "설문이 종료되었습니다";
+          startBtn.classList.add('btn-closed');
+          startBtn.onclick = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', checkSurveyStatus);
+
     let currentCard = 0;
     const totalQuestions = 7;
 
@@ -544,6 +572,7 @@
     }
 
     function nextCard() {
+      if (IS_SURVEY_CLOSED) return;
       if (currentCard < totalQuestions) showCard(currentCard + 1);
     }
 
@@ -623,11 +652,9 @@
 
       checkboxes.forEach(cb => cb.parentElement.classList.toggle('selected', cb.checked));
 
-      // 기타 체크박스가 켜져 있다면 텍스트가 입력되어야 함
       const otherChecked = Array.from(checkboxes).filter(cb => cb.checked && cb !== etcBox).length > 0;
       const etcValid = etcBox.checked ? (etcInput.value.trim().length > 0) : false;
 
-      // 일반 보기가 1개 이상 선택되어 있거나, 기타가 체크되어 텍스트가 채워져 있을 때만 다음 가능
       const canProceed = otherChecked || etcValid;
       document.getElementById('btn-next-5').disabled = !canProceed;
     }
@@ -643,7 +670,6 @@
       const form = document.getElementById('surveyForm');
       const formData = new FormData(form);
 
-      // Q5 기타 입력값 처리
       const q5List = [];
       const q5EtcText = document.getElementById('q5-etc-text').value.trim();
       document.querySelectorAll('input[name="q5"]:checked').forEach(cb => {
@@ -654,7 +680,6 @@
         }
       });
 
-      // Q6 기타 입력값 처리
       let q6Val = formData.get('q6') || "";
       if (q6Val === "기타") {
         const q6EtcText = document.getElementById('q6-etc-text').value.trim();
