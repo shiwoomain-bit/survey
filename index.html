@@ -431,7 +431,7 @@
       <!-- Q2 -->
       <div class="card" id="card-2">
         <h2>2. 새 문을 지나갈 때 손소독기를 사용하는 게 편한가요?</h2>
-        <p class="desc">1점(매우 불편함)부터 5점(매 매우 편리함) 사이에서 골라주세요.</p>
+        <p class="desc">1점(매우 불편함)부터 5점(매우 편리함) 사이에서 골라주세요.</p>
         <div class="scale-group">
           <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
           <button type="button" class="scale-btn" onclick="selectScore(2)">2</button>
@@ -470,7 +470,6 @@
         <h2>4. 설치 전이랑 비교했을 때 손 소독제를 더 자주 쓰게 되나요?</h2>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 전보다 훨씬 자주 쓴다</label>
-          <!-- type4="radio" 오타 수정 -->
           <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 전이랑 비슷하게 쓴다</label>
           <label class="option-label"><input type="radio" name="q4" value="거의 사용하지 않는다" onchange="enableNext(4)"> 거의 쓰지 않는다</label>
         </div>
@@ -533,6 +532,10 @@
             소중한 시간 내서 응답해 주셔서 감사합니다!<br>
             보내준 의견들 잘 모아서 더 좋은 급식실 환경을 만들어볼게요.
           </div>
+          <!-- 새로고침 카운트다운 표시 -->
+          <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #64748b;" id="countdownMsg">
+            잠시 후 처음 화면으로 돌아갑니다. (<span id="countdown">5</span>초)
+          </div>
         </div>
       </div>
 
@@ -563,14 +566,18 @@
 
     let currentCard = 0;
     const totalQuestions = 7;
+    let isCompleted = false; // 설문 완료 여부를 추적하는 변수
 
     /* ====================================================
-       [개선됨] 방치 타이머: 사용자 입력 없을 때만 30초 후 리로드
+       방치 타이머: 사용자 입력 없을 때만 30초 후 리로드
        ==================================================== */
     let idleTimer;
     const IDLE_TIMEOUT = 30000; // 30초
 
     function resetIdleTimer() {
+      // 설문이 이미 제출된 상태라면 방치 타이머 무시 (제출 후 새로고침 타이머가 따로 돎)
+      if (isCompleted) return;
+
       clearTimeout(idleTimer);
       // 첫 화면(card-0)에 있을 때만 타이머 작동
       if (currentCard === 0) {
@@ -693,6 +700,16 @@
       document.getElementById('btn-next-5').disabled = !canProceed;
     }
 
+    /* ====================================================
+       제출 후 뒤로가기 방지 로직
+       ==================================================== */
+    window.addEventListener('popstate', function(event) {
+      if (isCompleted) {
+        // 이미 완료된 상태에서 뒤로가기를 누르면 다시 강제로 앞으로 보내버림
+        history.pushState(null, null, location.href);
+      }
+    });
+
     async function submitSurvey() {
       const submitBtn = document.getElementById('submitBtn');
       const prevBtn = document.getElementById('prevBtn');
@@ -725,7 +742,7 @@
         q2: formData.get('q2') || "",
         q3: formData.get('q3') || "",
         q4: formData.get('q4') || "",
-        q5: q5List.join(', '), // [개선됨] 배열을 구글 시트에 깔끔하게 들어갈 수 있도록 쉼표 문자열로 합침
+        q5: q5List.join(', '), 
         q6: q6Val,
         q7: formData.get('q7') || ""
       };
@@ -738,10 +755,32 @@
           body: JSON.stringify(payload)
         });
 
+        // 1. 제출 성공 시 상태 변경
+        isCompleted = true;
+
+        // 2. 현재 상태를 History에 한 번 푸시하여 뒤로가기 방지 트랩 설정
+        history.pushState(null, null, location.href);
+
+        // 3. 완료 화면 띄우기
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         document.getElementById('card-complete').classList.add('active');
         document.getElementById('progressBar').style.width = '100%';
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // 4. 완료 화면에서 5초 카운트다운 후 자동 새로고침(리로드)
+        let secondsLeft = 5;
+        const countdownEl = document.getElementById('countdown');
+        
+        const countdownTimer = setInterval(() => {
+          secondsLeft--;
+          countdownEl.innerText = secondsLeft;
+          if (secondsLeft <= 0) {
+            clearInterval(countdownTimer);
+            // 페이지 자체를 아예 새로고침해서 완전 초기화
+            location.reload();
+          }
+        }, 1000);
+
       } catch (err) {
         alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
         submitBtn.disabled = false;
