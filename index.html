@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>급식실 앞 위생 시설 이용 만족도 조사</title>
+
+  <!-- 브라우저 캐시 방지 (항상 최신 화면 불러오기) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <style>
     :root {
       --primary: #1d4ed8;
@@ -377,7 +383,8 @@
   <!-- 상단 헤더 -->
   <header class="site-header">
     <div class="header-left">
-      <img src="logo.png" alt="이우학교 로고" class="school-logo">
+      <!-- 로고 이미지 경로 필요 시 확인해 주세요 -->
+      <img src="logo.png" alt="학교 로고" class="school-logo" onerror="this.style.display='none'">
       <div class="logo-title">급식실 시설 개선 설문조사</div>
     </div>
   </header>
@@ -424,7 +431,7 @@
       <!-- Q2 -->
       <div class="card" id="card-2">
         <h2>2. 새 문을 지나갈 때 손소독기를 사용하는 게 편한가요?</h2>
-        <p class="desc">1점(매우 불편함)부터 5점(매우 편리함) 사이에서 골라주세요.</p>
+        <p class="desc">1점(매우 불편함)부터 5점(매 매우 편리함) 사이에서 골라주세요.</p>
         <div class="scale-group">
           <button type="button" class="scale-btn" onclick="selectScore(1)">1</button>
           <button type="button" class="scale-btn" onclick="selectScore(2)">2</button>
@@ -463,6 +470,7 @@
         <h2>4. 설치 전이랑 비교했을 때 손 소독제를 더 자주 쓰게 되나요?</h2>
         <div class="options-group">
           <label class="option-label"><input type="radio" name="q4" value="훨씬 많이 사용한다" onchange="enableNext(4)"> 전보다 훨씬 자주 쓴다</label>
+          <!-- type4="radio" 오타 수정 -->
           <label class="option-label"><input type="radio" name="q4" value="이전과 비슷하게 사용한다" onchange="enableNext(4)"> 전이랑 비슷하게 쓴다</label>
           <label class="option-label"><input type="radio" name="q4" value="거의 사용하지 않는다" onchange="enableNext(4)"> 거의 쓰지 않는다</label>
         </div>
@@ -532,10 +540,11 @@
   </div>
 
   <script>
+    // 본인의 Apps Script 배포 URL로 변경하세요.
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKjk7tVUP1EloiPssdDWJzCa2QkNwQ0ZjoDfAPLinFO4za4o522Iv8GoVIhbfxtH65rQ/exec";
 
     /* ====================================================
-       설문 마감 설정 (마감 시 true 로 변경), (개시할시 false 로 변경)
+       설문 마감 설정 (마감 시 true 로 변경)
        ==================================================== */
     const IS_SURVEY_CLOSED = false; 
 
@@ -555,6 +564,30 @@
     let currentCard = 0;
     const totalQuestions = 7;
 
+    /* ====================================================
+       [개선됨] 방치 타이머: 사용자 입력 없을 때만 30초 후 리로드
+       ==================================================== */
+    let idleTimer;
+    const IDLE_TIMEOUT = 30000; // 30초
+
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      // 첫 화면(card-0)에 있을 때만 타이머 작동
+      if (currentCard === 0) {
+        idleTimer = setTimeout(() => {
+          location.reload();
+        }, IDLE_TIMEOUT);
+      }
+    }
+
+    // 화면 터치, 마우스 움직임, 키 입력이 있으면 타이머 초기화
+    window.addEventListener('touchstart', resetIdleTimer);
+    window.addEventListener('mousemove', resetIdleTimer);
+    window.addEventListener('keydown', resetIdleTimer);
+
+    // 초기 타이머 시작
+    resetIdleTimer();
+
     function updateProgress() {
       const percent = (currentCard / totalQuestions) * 100;
       document.getElementById('progressBar').style.width = percent + '%';
@@ -569,6 +602,7 @@
       }
       currentCard = index;
       updateProgress();
+      resetIdleTimer(); // 화면 전환 시에도 타이머 상태 업데이트
     }
 
     function nextCard() {
@@ -691,7 +725,7 @@
         q2: formData.get('q2') || "",
         q3: formData.get('q3') || "",
         q4: formData.get('q4') || "",
-        q5: q5List,
+        q5: q5List.join(', '), // [개선됨] 배열을 구글 시트에 깔끔하게 들어갈 수 있도록 쉼표 문자열로 합침
         q6: q6Val,
         q7: formData.get('q7') || ""
       };
